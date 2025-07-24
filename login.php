@@ -78,7 +78,7 @@ if (isset($_SESSION["pos"])) {
                                     exit();
                                 case "":
                                 case null: // Handles both empty string and null
-                                    header("Location: /TSP-system/ticketing-system/user/user_dashboard.php");
+                                    header("Location: /TSP-system/ticketing-system/user/create_ticket.php");
                                     exit();
                             }
                         } else {

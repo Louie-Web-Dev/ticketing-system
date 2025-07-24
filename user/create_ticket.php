@@ -30,9 +30,6 @@ $name_q = $_SESSION['name'];
 
     <div class="Container">
         <div class="content">
-            <font color="#ffffff">Hi! </font>
-            <a class="js-acc-btn" href="#"><label id="user_"><?php echo $name_q; ?></label>
-            </a>
             <input type="hidden" id="date_" value="<?php echo $date_; ?>" />
             <input type="hidden" id="ticket_no" value="<?php echo $ticket_num; ?>" />
             <input type="hidden" id="name_" value="<?php echo $_SESSION['name']; ?>" />

@@ -59,22 +59,16 @@ ob_start();
 
     <div class="navbar">
         <div class="header">
-            <a href="user_dashboard.php">
+            <a href="#">
                 <img src="../images/logo2.png" alt="" style="background-color: transparent; width: 180px; height: 150px;">
                 <hr>
             </a>
         </div>
 
         <div class="nav">
-            <div class="user_dashboard bg-transparent">
-                <a href="user_dashboard.php" class="bg-transparent">
-                    <i class="fa-solid fa-tachometer-alt bg-transparent" style="padding-right: 3px;"></i>
-                    <span class="bg-transparent no-underline">USER DASHBOARD</span>
-                </a>
-            </div>
 
             <div class="add-report bg-transparent">
-                <a href="#" class="bg-transparent">
+                <a href="user_pending.php" class="bg-transparent">
                     <i class="fa-solid fa-hourglass-half bg-transparent"></i>
                     Pending
                 </a>
@@ -88,7 +82,7 @@ ob_start();
             </div>
 
             <div class="report-list bg-transparent">
-                <a href="#" class="bg-transparent">
+                <a href="user_history.php" class="bg-transparent">
                     <i class="fa-solid fa-history bg-transparent" style="padding-right: 3px;"></i>
                     History
                 </a>

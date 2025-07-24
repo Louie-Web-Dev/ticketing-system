@@ -1,0 +1,112 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 85.5%;
+  height: 91%;
+  position: fixed;
+  right: 10px;
+  margin-top: 83px;
+  border: 1px solid #dee2e6;
+  border-radius: 15px;
+  padding-bottom: 20px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+}
+
+:root {
+  --primary-blue: #2163ce;
+  --secondary-blue: #1a56b4;
+  --light-gray: #f8f9fa;
+  --dark-gray: #343a40;
+}
+
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.card-header {
+  background-color: var(--primary-blue);
+  color: white;
+  font-weight: 600;
+  padding: 1.2rem;
+  border-radius: 0.5rem 0.5rem 0 0 !important;
+}
+
+.card-footer {
+  padding: 0.75rem 1.5rem;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+  background-color: var(--dark-gray);
+  color: white;
+  font-weight: 500;
+  vertical-align: middle;
+  padding: 0.75rem;
+}
+
+.table tbody td {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.ticket-no {
+  color: var(--primary-blue);
+  font-weight: bold;
+}
+
+.description-cell {
+  max-width: 250px;
+}
+
+.description-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  font-weight: 500;
+  padding: 0.5em 0.75em;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.empty-state i {
+  opacity: 0.6;
+}
+
+@media (max-width: 992px) {
+  .Container {
+    width: 83%;
+  }
+
+  .description-cell {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Container {
+    width: 95%;
+    height: auto;
+    position: static;
+    margin: 83px auto 20px;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .description-cell {
+    max-width: 120px;
+  }
+}
