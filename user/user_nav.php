@@ -75,18 +75,26 @@ ob_start();
 
             <div class="add-report bg-transparent">
                 <a href="#" class="bg-transparent">
-                    <i class="fa-solid fa-clock bg-transparent"></i> <!-- Icon changed to clock for pending -->
+                    <i class="fa-solid fa-hourglass-half bg-transparent"></i>
                     Pending
                 </a>
             </div>
 
             <div class="report-list bg-transparent">
-                <a href="#" class="bg-transparent">
-                    <i class="fa-solid fa-ticket-alt bg-transparent" style="padding-right: 3px;"></i> <!-- Icon changed to ticket-alt -->
+                <a href="create_ticket.php" class="bg-transparent">
+                    <i class="fa-solid fa-plus-circle bg-transparent" style="padding-right: 3px;"></i>
                     Create Ticket
                 </a>
             </div>
+
+            <div class="report-list bg-transparent">
+                <a href="#" class="bg-transparent">
+                    <i class="fa-solid fa-history bg-transparent" style="padding-right: 3px;"></i>
+                    History
+                </a>
+            </div>
         </div>
+
 
         <div class="togglebtn">
             <button id="toggleNavButton" class="toggle-nav-button bg-transparent">

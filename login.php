@@ -68,7 +68,8 @@ if (isset($_SESSION["pos"])) {
                             $_SESSION["user"] = "yes";
                             $_SESSION["username"] = $user["username"];
                             $_SESSION["pos"] = $user["pos"];
-                            $_SESSION["fullName"] = $user["full_name"];
+                            $_SESSION["name"] = $user["name"];
+                            $_SESSION["department"] = $user["department"];
 
                             // Redirect based on position
                             switch ($_SESSION["pos"]) {

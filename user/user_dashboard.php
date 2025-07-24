@@ -9,6 +9,12 @@
 
 <body>
     <?php include 'user_nav.php' ?>
+
+    <div class="container">
+
+
+
+    </div>
 </body>
 
 </html>
