@@ -63,7 +63,7 @@ if (isset($_SESSION["pos"])) {
                     $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
                     if ($user) {
-                        // Compare the entered password with the stored password
+
                         if ($password == $user["password"]) {
                             $_SESSION["user"] = "yes";
                             $_SESSION["username"] = $user["username"];
@@ -71,13 +71,12 @@ if (isset($_SESSION["pos"])) {
                             $_SESSION["name"] = $user["name"];
                             $_SESSION["department"] = $user["department"];
 
-                            // Redirect based on position
                             switch ($_SESSION["pos"]) {
                                 case "admin":
                                     header("Location: /TSP-system/ticketing-system/admin/dashboard.php");
                                     exit();
                                 case "":
-                                case null: // Handles both empty string and null
+                                case null:
                                     header("Location: /TSP-system/ticketing-system/user/user_dashboard.php");
                                     exit();
                             }
@@ -88,7 +87,6 @@ if (isset($_SESSION["pos"])) {
                         $_SESSION["error_message"] = "Username does not exist!";
                     }
 
-                    // Always redirect back to login page after checking
                     header("Location: index.php");
                     exit();
                 }

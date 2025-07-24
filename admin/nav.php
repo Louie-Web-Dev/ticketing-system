@@ -73,38 +73,18 @@ ob_start();
                 </a>
             </div>
 
-            <div class="add-report bg-transparent">
-                <a href="#" class="bg-transparent toggle-button">
-                    <i class="fa-solid fa-box-archive"></i>
-                    INVENTORY
+            <div class="pending bg-transparent">
+                <a href="pending.php" class="bg-transparent">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <span class="bg-transparent no-underline">PENDING</span>
                 </a>
-                <div class="reports">
-                    <a href="add_stocks.php" class="bg-transparent">Add Stock</a><br>
-                    <a href="stocks_history.php" class="bg-transparent">Stock History</a><br>
-                    <a href="request.php" class="bg-transparent">Add Request</a><br>
-                    <a href="request_history.php" class="bg-transparent">Request History</a><br>
-                </div>
             </div>
 
-            <div class="report-list bg-transparent">
-                <a href="#" class="bg-transparent report-toggle-button">
-                    <i class="fa-solid fa-list bg-transparent" style="padding-right: 3px;"></i>
-                    DEPARTMENT
+            <div class="history bg-transparent">
+                <a href="history.php" class="bg-transparent">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span class="bg-transparent no-underline">HISTORY</span>
                 </a>
-                <div class="reportList">
-                    <a href="admin_list.php" class="bg-transparent toggle-report" data-target="newReports">Admin</a>
-                    <a href="finance_acc.php" class="bg-transparent toggle-report" data-target="archives">Finance&Acc</a><br>
-                    <a href="parts_counter.php" class="bg-transparent toggle-report" data-target="archives">Parts Counter</a><br>
-                    <a href="parts_warehouse.php" class="bg-transparent toggle-report" data-target="archives">Parts Warehouse</a><br>
-                    <a href="sales_financing.php" class="bg-transparent toggle-report" data-target="archives">Sales (Financing)</a><br>
-                    <a href="sales_mp.php" class="bg-transparent toggle-report" data-target="archives">Sales (MP)</a><br>
-                    <a href="sales_admin.php" class="bg-transparent toggle-report" data-target="newReports">Sales Admin</a><br>
-                    <a href="sales_training.php" class="bg-transparent toggle-report" data-target="archives">Sales Training</a><br>
-                    <a href="service.php" class="bg-transparent toggle-report" data-target="archives">Service</a><br>
-                    <a href="tool_room.php" class="bg-transparent toggle-report" data-target="newReports">Tool Room</a><br>
-                    <a href="tsure.php" class="bg-transparent toggle-report" data-target="archives">Tsure</a>
-
-                </div>
             </div>
 
             <div class="user bg-transparent">
@@ -232,7 +212,7 @@ ob_start();
             position: fixed;
             height: 80px;
             width: 82%;
-            background-color: rgb(161, 8, 8);
+            background-color: #418bebff;
             right: 0;
             z-index: 0;
         }
@@ -245,7 +225,7 @@ ob_start();
             height: 65px;
             min-width: 82%;
             margin-left: 100px;
-            background-color: rgba(92, 92, 92, 1);
+            background-color: #418bebff;
             border-radius: 15px;
             border: 1px black solid;
             display: flex;
