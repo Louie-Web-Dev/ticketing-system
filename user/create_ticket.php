@@ -1,4 +1,5 @@
 <?php
+session_start();
 $random_num = mt_rand(1000000, 9999999);
 $year = date("dmy");
 
@@ -7,6 +8,7 @@ date_default_timezone_set("Asia/Manila");
 $date_ = date("Y-m-d h:i:sa");
 
 $ticket_num = $year . "-" .  $random_num;
+$name_q = $_SESSION['name'];
 ?>
 
 <!DOCTYPE html>
@@ -160,6 +162,15 @@ $ticket_num = $year . "-" .  $random_num;
     <?php include 'user_nav.php' ?>
 
     <div class="Container">
+        <div class="content">
+            <font color="#ffffff">Hi! </font>
+            <a class="js-acc-btn" href="#"><label id="user_"><?php echo $name_q; ?></label>
+            </a>
+            <input type="text" id="date_" value="<?php echo $date_; ?>" />
+            <input type="text" id="ticket_no" value="<?php echo $ticket_num; ?>" />
+            <input type="text" id="name_" value="<?php echo $_SESSION['name']; ?>" />
+            <input type="text" id="department" value="<?php echo $_SESSION['department']; ?>" />
+        </div>
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card">
@@ -383,18 +394,6 @@ $ticket_num = $year . "-" .  $random_num;
             } else {
                 troubleshootBtn.classList.add('hidden');
             }
-        });
-
-        // Form submission
-        document.getElementById('concernForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Here you would typically gather the form data and send it to the server
-            alert('Concern submitted successfully!');
-            this.reset();
-            document.querySelectorAll('.checkbox-group').forEach(el => {
-                el.classList.add('hidden');
-            });
-            document.getElementById('proc_btn').classList.add('hidden');
         });
 
         $('#submit').click(function() {

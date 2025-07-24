@@ -1,6 +1,6 @@
 <?php
 
-require_once("ts_db.php");
+require_once("database.php");
 
 $ticket_no = $_POST["ticket_no"];
 $name_ = $_POST["name_"];
