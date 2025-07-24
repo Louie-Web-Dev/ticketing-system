@@ -60,7 +60,7 @@ ob_start();
     <div class="navbar">
         <div class="header">
             <a href="dashboard.php">
-                <img src="../images/logo2.png" alt="" style="background-color: transparent; width: 180px; height: 150px;">
+                <img src="../images/logo2.png" alt="" style="background-color: transparent; width: 160px; height: 130px;">
                 <hr>
             </a>
         </div>
@@ -205,21 +205,20 @@ ob_start();
         </script>
 
         <script>
-    window.addEventListener('resize', function () {
-        const navContent = document.querySelector('.navbar .nav');
-        const toggleBtn = document.querySelector('.togglebtn');
-        
-        // Adjust based on your responsive breakpoint
-        if (window.innerWidth > 1555) {
-            navContent.style.display = 'block';
-            sessionStorage.removeItem('navState'); // clear stored toggle state
-        } else {
-            if (sessionStorage.getItem('navState') === 'none') {
-                navContent.style.display = 'none';
-            }
-        }
-    });
-</script>
+            window.addEventListener('resize', function () {
+                const navContent = document.querySelector('.navbar .nav');
+                const toggleBtn = document.querySelector('.togglebtn');
+
+                if (window.innerWidth > 1555) {
+                    navContent.style.display = 'block';
+                    sessionStorage.removeItem('navState'); 
+                } else {
+                    if (sessionStorage.getItem('navState') === 'none') {
+                        navContent.style.display = 'none';
+                    }
+                }
+            });
+        </script>
 
 
     </div>
@@ -246,7 +245,7 @@ ob_start();
             height: 65px;
             min-width: 82%;
             margin-left: 100px;
-            background-color: rgb(151, 0, 0);
+            background-color: rgba(92, 92, 92, 1);
             border-radius: 15px;
             border: 1px black solid;
             display: flex;
@@ -357,8 +356,8 @@ ob_start();
 
         .header img {
             position: absolute;
-            top: 10px;
-            left: 15%;
+            top: 20px;
+            left: 20%;
         }
 
         .container label {
@@ -417,14 +416,6 @@ ob_start();
             left: 0;
             bottom: -10px;
             transition: 0.4s;
-        }
-
-        .aksyon-bilis img {
-            position: absolute;
-            left: 15px;
-            bottom: 4%;
-            height: 140px;
-            width: 240px;
         }
 
         .reports {
