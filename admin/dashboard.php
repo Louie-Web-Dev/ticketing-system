@@ -9,7 +9,7 @@
 
 <body>
     <?php include 'nav.php' ?>
-    hellooooooo
+    hellooooooow
 </body>
 
 </html>
