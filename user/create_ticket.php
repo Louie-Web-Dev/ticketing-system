@@ -22,140 +22,7 @@ $name_q = $_SESSION['name'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .Container {
-            display: flex;
-            flex-direction: column;
-            background-color: white;
-            width: 85.5%;
-            height: 91%;
-            position: fixed;
-            right: 10px;
-            margin-top: 83px;
-            border: 1px black solid;
-            border-radius: 15px;
-            padding-bottom: 20px;
-        }
-
-        :root {
-            --primary-blue: #2163ce;
-            --secondary-blue: #1a56b4;
-            --light-gray: #f8f9fa;
-            --dark-gray: #343a40;
-        }
-
-        .row {
-            width: 1500px;
-        }
-
-        body {
-            background-color: #f5f7fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .card-header {
-            background-color: var(--primary-blue);
-            color: white;
-            font-weight: 600;
-            padding: 1.2rem;
-            border-radius: 0.5rem 0.5rem 0 0 !important;
-        }
-
-        .card {
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-            margin-top: 100px;
-        }
-
-        .form-section {
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 0 0 0.5rem 0.5rem;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-control,
-        .form-select {
-            padding: 0.75rem 1rem;
-            border: 1px solid #ced4da;
-            border-radius: 0.375rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 0.25rem rgba(33, 99, 206, 0.25);
-        }
-
-        .checkbox-group {
-            background-color: black;
-            padding: 1rem;
-            border-radius: 0.375rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .checkbox-label {
-            margin-right: 1.5rem;
-            display: inline-block;
-            color: #f8f9fa;
-        }
-
-        .checkbox-label .input {
-            font-size: 1px;
-        }
-
-        .btn-submit {
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-submit:hover {
-            background-color: var(--secondary-blue);
-            transform: translateY(-2px);
-        }
-
-        .btn-troubleshoot {
-            background-color: #ffc107;
-            color: var(--dark-gray);
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-troubleshoot:hover {
-            background-color: #e0a800;
-            transform: translateY(-2px);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .required-field::after {
-            content: " *";
-            color: #dc3545;
-        }
-    </style>
+    <link rel="stylesheet" href="create_ticket.css">
 </head>
 
 <body>
@@ -166,10 +33,10 @@ $name_q = $_SESSION['name'];
             <font color="#ffffff">Hi! </font>
             <a class="js-acc-btn" href="#"><label id="user_"><?php echo $name_q; ?></label>
             </a>
-            <input type="text" id="date_" value="<?php echo $date_; ?>" />
-            <input type="text" id="ticket_no" value="<?php echo $ticket_num; ?>" />
-            <input type="text" id="name_" value="<?php echo $_SESSION['name']; ?>" />
-            <input type="text" id="department" value="<?php echo $_SESSION['department']; ?>" />
+            <input type="hidden" id="date_" value="<?php echo $date_; ?>" />
+            <input type="hidden" id="ticket_no" value="<?php echo $ticket_num; ?>" />
+            <input type="hidden" id="name_" value="<?php echo $_SESSION['name']; ?>" />
+            <input type="hidden" id="department" value="<?php echo $_SESSION['department']; ?>" />
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -359,106 +226,127 @@ $name_q = $_SESSION['name'];
             </div>
         </div>
     </div>
+    <!-- Add this before your own script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Show/hide sub-categories based on category selection
-        document.getElementById('catgry').addEventListener('change', function() {
-            // Hide all sub-category sections first
-            document.querySelectorAll('.checkbox-group').forEach(el => {
-                el.classList.add('hidden');
-            });
+        $(document).ready(function() {
+            // Show/hide sub-categories based on category selection
+            $('#catgry').on('change', function() {
+                var cat = $(this).val();
 
-            // Show the selected category's sub-categories
-            const selectedCategory = this.value;
-            if (selectedCategory === 'PC Software') {
-                document.getElementById('pc_soft').classList.remove('hidden');
-            } else if (selectedCategory === 'PC Hardware') {
-                document.getElementById('pc_hard').classList.remove('hidden');
-            } else if (selectedCategory === 'Internet Connection') {
-                document.getElementById('int_conn').classList.remove('hidden');
-            } else if (selectedCategory === 'Printer') {
-                document.getElementById('printer').classList.remove('hidden');
-            } else if (selectedCategory === 'SAP') {
-                document.getElementById('sap').classList.remove('hidden');
-            } else if (selectedCategory === 'Others') {
-                document.getElementById('others').classList.remove('hidden');
-            }
+                // Hide all sub-category sections first
+                $('.checkbox-group').hide();
 
-            // Show/hide troubleshooting button based on category
-            const troubleshootBtn = document.getElementById('proc_btn');
-            if (selectedCategory === 'PC Software' || selectedCategory === 'PC Hardware' ||
-                selectedCategory === 'Internet Connection' || selectedCategory === 'Printer') {
-                troubleshootBtn.classList.remove('hidden');
-            } else {
-                troubleshootBtn.classList.add('hidden');
-            }
-        });
-
-        $('#submit').click(function() {
-
-            var conf = confirm("Proceed with your Concern?");
-            if (conf == true) {
-
-                var catgry = document.getElementById("catgry").value;
-
-                /* declare an checkbox array */
-                var chkArray = [];
-
-                /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-                $("#sub_cat:checked").each(function() {
-                    chkArray.push($(this).val());
-
-                });
-
-                /* we join the array separated by the comma */
-                var selected;
-                selected = chkArray.join(',');
-
-                /* check if there is selected checkboxes, by default the length is 1 as it contains one single comma */
-                if (selected.length > 0) {
-
-                    var date_ = document.getElementById("date_").value;
-                    var ticket_no = document.getElementById("ticket_no").value;
-                    var name_ = document.getElementById("name_").value;
-                    var department = document.getElementById("department").value;
-                    var catgry = document.getElementById("catgry").value;
-                    var desc_ = document.getElementById("desc_").value;
-                    var concern_type = document.getElementById("concern_type").value;
-
-                    //alert(selected)
-                    //alert(catgry + desc + selected);
-
-                    $.ajax({
-                        url: "insert_concern.php",
-                        type: "POST",
-                        data: {
-                            'ticket_no': ticket_no,
-                            'name_': name_,
-                            'department': department,
-                            'date_': date_,
-                            'catgry': catgry,
-                            'selected': selected,
-                            'desc_': desc_,
-                            'concern_type': concern_type
-                        },
-                        success: function(data) {
-
-                            alert("Filed Successfully!" + "\n" + "PLEASE PROCEED TO PENDING PAGE AND CLICK DONE IF THE CONCERN IS FINISHED!");
-                            location.reload(true);
-
-
-                        }
-                    });
-
-
-                } else {
-                    alert("Please check at least one sub-category");
+                // Show the relevant section
+                if (cat == "PC Software") {
+                    $('#pc_soft').show();
+                } else if (cat == "PC Hardware") {
+                    $('#pc_hard').show();
+                } else if (cat == "Internet Connection") {
+                    $('#int_conn').show();
+                } else if (cat == "Printer") {
+                    $('#printer').show();
+                } else if (cat == "SAP") {
+                    $('#sap').show();
+                } else if (cat == "Others") {
+                    $('#others').show();
                 }
 
-            } //end if ng confirm
+                // Reset all checkboxes
+                $('.sub_cat').prop('checked', false);
 
+                // Handle button visibility
+                if (cat == "PC Hardware") {
+                    $(".proc_btn").show();
+                    $(".submit").hide();
+                } else {
+                    $(".proc_btn").hide();
+                    $(".submit").show();
+                }
+            });
+
+            // Handle sub-category changes for PC Hardware
+            $(document).on('change', '.sub_cat', function() {
+                if ($('#catgry').val() == "PC Hardware") {
+                    var subcat = $(this).val();
+                    if (subcat == "Hard Drive" || subcat == "Flash Drive") {
+                        $(".proc_btn").hide();
+                        $(".submit").show();
+                    } else if (subcat == "Mouse" || subcat == "Keyboard" || subcat == "Monitor" || subcat == "UPS") {
+                        $(".proc_btn").show();
+                        $(".submit").hide();
+                    }
+                }
+            });
+
+            // Form submission handler
+            $('#concernForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var conf = confirm("Proceed with your Concern?");
+                if (!conf) return false;
+
+                // Basic form validation
+                var concern_type = $('#concern_type').val();
+                var catgry = $('#catgry').val();
+                var desc_ = $('#desc_').val();
+
+                if (!concern_type) {
+                    alert("Please select a concern type");
+                    return false;
+                }
+
+                if (!catgry) {
+                    alert("Please select a category");
+                    return false;
+                }
+
+                if (!desc_) {
+                    alert("Please enter a description");
+                    return false;
+                }
+
+                // Checkbox validation
+                var selected = [];
+                $(".sub_cat:checked").each(function() {
+                    selected.push($(this).val());
+                });
+
+                // For categories that have sub-categories, require at least one selection
+                if (catgry !== "Others" && selected.length === 0) {
+                    alert("Please check at least one sub-category");
+                    return false;
+                }
+
+                // Prepare data
+                var formData = {
+                    'ticket_no': $('#ticket_no').val(),
+                    'name_': $('#name_').val(),
+                    'department': $('#department').val(),
+                    'date_': $('#date_').val(),
+                    'catgry': catgry,
+                    'selected': selected.join(','),
+                    'desc_': desc_,
+                    'concern_type': concern_type
+                };
+
+                // Submit via AJAX
+                $.ajax({
+                    url: "insert_concern.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        alert("Filed Successfully!\nPLEASE PROCEED TO PENDING PAGE AND CLICK DONE IF THE CONCERN IS FINISHED!");
+                        location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        alert("An error occurred: " + error);
+                    }
+                });
+            });
         });
     </script>
 </body>

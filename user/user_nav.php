@@ -35,7 +35,7 @@ ob_start();
 
 <body>
     <div class="container">
-        <label for="title" id="text-one">Toyota IT Ticketing System |</label>
+        <h1 for="title" id="text-one">Toyota IT Ticketing System |</h1>
         <h1 id="datetime"></h1>
         <script>
             function updateDateTime() {
