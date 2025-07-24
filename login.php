@@ -32,7 +32,7 @@ if (isset($_SESSION["pos"])) {
     <div class="custom-container">
         <div class="cont-2">
             <img src="images/logo1.png" id="logo2" height="100px" width="200px">
-            <h1>Toyota Toner<br>Inventory System</h1>
+            <h1>Toyota IT<br>Ticketing System</h1>
 
             <form action="login.php" method="post">
                 <div class="form-group">
