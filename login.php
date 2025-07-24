@@ -31,7 +31,7 @@ if (isset($_SESSION["pos"])) {
 <body>
     <div class="custom-container">
         <div class="cont-2">
-            <img src="images/logo1.png" id="logo2" height="100px" width="200px">
+            <img src="images/logo1.png" id="logo2" height="90px" width="160px" style="margin-left: 30px;">
             <h1>Toyota IT<br>Ticketing System</h1>
 
             <form action="login.php" method="post">
