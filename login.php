@@ -75,10 +75,6 @@ if (isset($_POST["login"])) {
             <form action="login.php" method="post">
                 <!-- Error Message Display -->
                 <?php if (isset($_SESSION['error_message'])): ?>
-                    <div class="alert alert-danger alert-dismissible fade show w-75" role="alert">
-                        <?php echo $_SESSION['error_message']; ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
                     <?php unset($_SESSION['error_message']); ?>
                 <?php endif; ?>
 
