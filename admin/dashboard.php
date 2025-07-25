@@ -230,371 +230,123 @@ require_once "database.php";
 
         <hr style="margin-top: 20px; margin-bottom: 50px;">
 
+        <div class="second-section">
+            <form id="filterForm" class="filter-form2">
+
+                <label for="from_date">From: </label>
+                <input type="date" name="from_date" value="<?php echo htmlspecialchars($_GET['from_date'] ?? date('Y-01-01')); ?>">
+                <input type="date" name="to_date" value="<?php echo htmlspecialchars($_GET['to_date'] ?? date('Y-12-31')); ?>">
+                <label for="category">Category:</label>
+                <select name="category" id="category">
+                    <option value="">All</option>
+                    <option value="PC Software" <?= (isset($_GET['category']) && $_GET['category'] == 'PC Software') ? 'selected' : '' ?>>PC Software</option>
+                    <option value="PC Hardware" <?= (isset($_GET['category']) && $_GET['category'] == 'PC Hardware') ? 'selected' : '' ?>>PC Hardware</option>
+                    <option value="Internet Connection" <?= (isset($_GET['category']) && $_GET['category'] == 'Internet Connection') ? 'selected' : '' ?>>Internet Connection</option>
+                    <option value="Printer" <?= (isset($_GET['category']) && $_GET['category'] == 'Printer') ? 'selected' : '' ?>>Printer</option>
+                    <option value="SAP" <?= (isset($_GET['category']) && $_GET['category'] == 'SAP') ? 'selected' : '' ?>>SAP</option>
+                    <option value="Others" <?= (isset($_GET['category']) && $_GET['category'] == 'Others') ? 'selected' : '' ?>>Others</option>
+                </select>
+
+
+                <label for="sub_cat">Sub-category:</label>
+                <select name="sub_cat" id="sub_cat">
+                    <option value="">All</option>
+                </select>
+
+                <button type="button" class="btn-filter" id="filterBtn">Filter</button>
+                <button type="button" class="btn-clear" id="clearBtn">Clear</button>
+
+
+            </form>
 
-        <form method="GET" class="filter-form2">
-            <label for="from_date">From: </label>
-            <input type="date" name="from_date" value="<?php echo htmlspecialchars($_GET['from_date'] ?? date('Y-01-01')); ?>">
-            <input type="date" name="to_date" value="<?php echo htmlspecialchars($_GET['to_date'] ?? date('Y-12-31')); ?>">
-            <label for="category">Category:</label>
-            <select name="category" id="category">
-                <option value="">All</option>
-                <option value="PC Software" <?= (isset($_GET['category']) && $_GET['category'] == 'PC Software') ? 'selected' : '' ?>>PC Software</option>
-                <option value="PC Hardware" <?= (isset($_GET['category']) && $_GET['category'] == 'PC Hardware') ? 'selected' : '' ?>>PC Hardware</option>
-                <option value="Internet Connection" <?= (isset($_GET['category']) && $_GET['category'] == 'Internet Connection') ? 'selected' : '' ?>>Internet Connection</option>
-                <option value="Printer" <?= (isset($_GET['category']) && $_GET['category'] == 'Printer') ? 'selected' : '' ?>>Printer</option>
-                <option value="SAP" <?= (isset($_GET['category']) && $_GET['category'] == 'SAP') ? 'selected' : '' ?>>SAP</option>
-                <option value="Others" <?= (isset($_GET['category']) && $_GET['category'] == 'Others') ? 'selected' : '' ?>>Others</option>
-            </select>
-
-
-            <label for="sub_cat">Sub-category:</label>
-            <select name="sub_cat" id="sub_cat">
-                <option value="">All</option>
-            </select>
-
-            <button type="submit" class="btn-filter">Filter</button>
-
-            <a href="dashboard.php" class="btn-reset">Reset</a>
-
-        </form>
-
-        <script>
-            const subCategories2 = {
-                "PC Software": ["System", "Operating System", "MS Office", "Shared Folders"],
-                "PC Hardware": ["Mouse", "Monitor", "Keyboard", "UPS", "Hard Drive", "Flash Drive", "PC Format"],
-                "Internet Connection": ["Wifi", "LAN"],
-                "Printer": ["Print", "Photocopy", "Scan"],
-                "SAP": ["Lock/Unlock of Account", "Change Password", "Addition of access roles", "Others"],
-                "Others": ["TV Con", "Assistance on projector setup", "Recolation of PC", "Others"]
-            };
-
-            function updateSubCategories2() {
-                const categorySelect = document.querySelector(".filter-form2 #category");
-                const subCatSelect = document.querySelector(".filter-form2 #sub_cat");
-                const selectedSubCat = "<?php echo $_GET['sub_cat'] ?? ''; ?>";
-
-                const selectedCategory = categorySelect.value;
-                const options = subCategories2[selectedCategory] || [];
-
-                subCatSelect.innerHTML = '<option value="">All</option>';
-
-                options.forEach(sub => {
-                    const option = document.createElement("option");
-                    option.value = sub;
-                    option.textContent = sub;
-                    if (sub === selectedSubCat) {
-                        option.selected = true;
-                    }
-                    subCatSelect.appendChild(option);
-                });
-            }
-
-            document.addEventListener("DOMContentLoaded", () => {
-                updateSubCategories2();
-
-                const categorySelect = document.querySelector(".filter-form2 #category");
-                categorySelect.addEventListener("change", updateSubCategories2);
-            });
-        </script>
-
-
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start;">
-
-            <?php
-            require_once "database.php";
-
-
-            $fromDate = !empty($_GET['from_date']) ? $_GET['from_date'] : date('Y-01-01');
-            $toDate = !empty($_GET['to_date']) ? $_GET['to_date'] : date('Y-12-31');
-            $category = $_GET['category'] ?? '';
-            $subCat = $_GET['sub_cat'] ?? '';
-
-
-            $conditions = ["con_date BETWEEN '$fromDate' AND '$toDate'"];
-
-            if (!empty($category)) {
-                $safeCategory = $conn->real_escape_string($category);
-                $conditions[] = "category = '$safeCategory'";
-            }
-
-            if (!empty($subCat)) {
-                $safeSubCat = $conn->real_escape_string($subCat);
-                $conditions[] = "sub_cat = '$safeSubCat'";
-            }
-
-            $whereClause = implode(' AND ', $conditions);
-
-            $allMonths = [];
-            $monthlyData = [];
-            $start = new DateTime($fromDate);
-            $end = new DateTime($toDate);
-            $end->modify('first day of next month');
-
-            while ($start < $end) {
-                $monthKey = $start->format('Y-m');
-                $monthlyData[$monthKey] = 0;
-                $start->modify('+1 month');
-            }
-
-            $sql = "SELECT DATE_FORMAT(con_date, '%Y-%m') AS month, COUNT(*) AS total_quantity 
-                        FROM concerns
-                        WHERE $whereClause
-                        GROUP BY month 
-                        ORDER BY month ASC";
-
-            $result = $conn->query($sql);
-            while ($row = $result->fetch_assoc()) {
-                $monthlyData[$row['month']] = $row['total_quantity'];
-            }
-
-            $months = [];
-            foreach (array_keys($monthlyData) as $monthKey) {
-                $months[] = date("M Y", strtotime($monthKey . "-01"));
-            }
-            $quantities = array_values($monthlyData);
-
-            $barQuery = "SELECT department, COUNT(*) AS total_used 
-                            FROM concerns
-                            WHERE $whereClause
-                            GROUP BY department 
-                            ORDER BY department";
-
-            $barResult = $conn->query($barQuery);
-            $departments = [];
-            $usedQuantities = [];
-
-            while ($row = $barResult->fetch_assoc()) {
-                $departments[] = $row['department'];
-                $usedQuantities[] = $row['total_used'];
-            }
-
-
-            $pieQuery = "SELECT sub_cat, COUNT(*) AS total_quantity 
-                            FROM concerns
-                            WHERE $whereClause
-                            GROUP BY sub_cat";
-
-            $pieResult = $conn->query($pieQuery);
-            $tonerLabels = [];
-            $tonerQuantities = [];
-
-            while ($row = $pieResult->fetch_assoc()) {
-                $tonerLabels[] = $row['sub_cat'];
-                $tonerQuantities[] = $row['total_quantity'];
-            }
-            ?>
-
-
-
-
-            <div style="width: 50%; box-sizing: border-box;">
-                <div style="padding: 20px;">
-                    <canvas id="concernChart" style="width: 100%; height: 400px;"></canvas>
-                </div>
-
-                <script>
-                    const ctx = document.getElementById('concernChart').getContext('2d');
-
-                    const tonerChart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: <?php echo json_encode($months); ?>,
-                            datasets: [{
-                                label: 'Concern',
-                                data: <?php echo json_encode($quantities); ?>,
-                                borderColor: 'rgba(32, 141, 230, 1)',
-                                backgroundColor: 'rgba(98, 210, 224, 0.38)',
-                                tension: 0.4,
-                                fill: true,
-                                pointRadius: 5,
-                                pointHoverRadius: 7
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Concern Rate',
-                                    font: {
-                                        size: 20
-                                    }
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: 'number of concerns'
-                                    }
-                                },
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Month'
-                                    }
-                                }
-                            }
-                        }
-                    });
-                </script>
-
-
-
-                <!--bar graph -->
-
-                <?php
-                $barQuery = "SELECT department, COUNT(*) AS total_used 
-                FROM concerns
-                WHERE con_date BETWEEN '$fromDate' AND '$toDate'
-                GROUP BY department 
-                ORDER BY department";
-
-
-                $barResult = $conn->query($barQuery);
-
-                $departments = [];
-                $usedQuantities = [];
-
-                while ($row = $barResult->fetch_assoc()) {
-                    $departments[] = $row['department'];
-                    $usedQuantities[] = $row['total_used'];
-                }
-                ?>
-
-                <div style="padding: 20px; box-sizing: border-box;">
-                    <canvas id="departmentBarChart" style="width: 800px; height: 400px;"></canvas>
-                </div>
-
-
-
-                <script>
-                    const barCtx = document.getElementById('departmentBarChart').getContext('2d');
-
-                    const departmentBarChart = new Chart(barCtx, {
-                        type: 'bar',
-                        data: {
-                            labels: <?php echo json_encode($departments); ?>,
-                            datasets: [{
-                                label: 'Total Used',
-                                data: <?php echo json_encode($usedQuantities); ?>,
-                                backgroundColor: 'rgba(240, 127, 127, 0.38)',
-                                borderColor: 'rgba(240, 127, 127, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Concern per Department',
-                                    font: {
-                                        size: 18
-                                    }
-                                },
-                                legend: {
-                                    display: false
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: 'number of concerns'
-                                    }
-                                },
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Department'
-                                    }
-                                }
-                            }
-                        }
-                    });
-                </script>
-            </div>
-
-
-            <!-- pie chart -->
-
-            <?php
-            $categoryFilterOnly = "category != ''";
-            if (!empty($category)) {
-                $categoryFilterOnly .= " AND category = '" . $conn->real_escape_string($category) . "'";
-            }
-            if (!empty($fromDate) && !empty($toDate)) {
-                $categoryFilterOnly .= " AND con_date BETWEEN '$fromDate' AND '$toDate'";
-            }
-
-            $pieQuery = "SELECT sub_cat FROM concerns WHERE $categoryFilterOnly";
-
-            $pieResult = $conn->query($pieQuery);
-
-            $subCatCounts = [];
-
-            while ($row = $pieResult->fetch_assoc()) {
-                $subCatList = explode(',', $row['sub_cat']);
-
-                foreach ($subCatList as $item) {
-                    $cleanItem = trim($item);
-                    if (!empty($cleanItem)) {
-                        if (!isset($subCatCounts[$cleanItem])) {
-                            $subCatCounts[$cleanItem] = 0;
-                        }
-                        $subCatCounts[$cleanItem]++;
-                    }
-                }
-            }
-
-            $tonerLabels = array_keys($subCatCounts);
-            $tonerQuantities = array_values($subCatCounts);
-            ?>
-
-
-            <div style="width: 50%; padding: 20px; box-sizing: border-box;">
-                <canvas id="tonerPieChart" style="width: 100%; height: 100px;"></canvas>
-            </div>
-            <?php
-            $categoryTitle = $category ? " for $category" : "";
-            ?>
 
             <script>
-                const pieCtx = document.getElementById('tonerPieChart').getContext('2d');
+                const subCategories2 = {
+                    "PC Software": ["System", "Operating System", "MS Office", "Shared Folders"],
+                    "PC Hardware": ["Mouse", "Monitor", "Keyboard", "UPS", "Hard Drive", "Flash Drive", "PC Format"],
+                    "Internet Connection": ["Wifi", "LAN"],
+                    "Printer": ["Print", "Photocopy", "Scan"],
+                    "SAP": ["Lock/Unlock of Account", "Change Password", "Addition of access roles", "Others"],
+                    "Others": ["TV Con", "Assistance on projector setup", "Recolation of PC", "Others"]
+                };
 
-                const tonerPieChart = new Chart(pieCtx, {
-                    type: 'pie',
-                    data: {
-                        labels: <?php echo json_encode($tonerLabels); ?>,
-                        datasets: [{
-                            data: <?php echo json_encode($tonerQuantities); ?>,
-                            backgroundColor: [
-                                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                                '#9966FF', '#FF9F40', '#C9CBCF', '#76C7C0'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Sub-category Breakdown<?php echo $categoryTitle; ?>',
-                                font: {
-                                    size: 18
-                                }
-                            },
-                            legend: {
-                                position: 'right'
-                            }
+                function updateSubCategories2() {
+                    const categorySelect = document.querySelector(".filter-form2 #category");
+                    const subCatSelect = document.querySelector(".filter-form2 #sub_cat");
+                    const selectedSubCat = "<?php echo $_GET['sub_cat'] ?? ''; ?>";
+
+                    const selectedCategory = categorySelect.value;
+                    const options = subCategories2[selectedCategory] || [];
+
+                    subCatSelect.innerHTML = '<option value="">All</option>';
+
+                    options.forEach(sub => {
+                        const option = document.createElement("option");
+                        option.value = sub;
+                        option.textContent = sub;
+                        if (sub === selectedSubCat) {
+                            option.selected = true;
                         }
-                    }
+                        subCatSelect.appendChild(option);
+                    });
+                }
+
+                document.addEventListener("DOMContentLoaded", () => {
+                    updateSubCategories2();
+
+                    const categorySelect = document.querySelector(".filter-form2 #category");
+                    categorySelect.addEventListener("change", updateSubCategories2);
+
+                    document.getElementById("filterBtn").addEventListener("click", function() {
+                        const form = document.getElementById("filterForm");
+                        const formData = new FormData(form);
+                        const query = new URLSearchParams(formData).toString();
+
+                        fetch("get_chart_data.php?" + query)
+                            .then(response => response.text())
+                            .then(html => {
+                                const container = document.getElementById("chart-container");
+                                container.innerHTML = html;
+
+                                const scripts = container.querySelectorAll("script");
+                                scripts.forEach(script => {
+                                    const newScript = document.createElement("script");
+                                    newScript.textContent = script.textContent;
+                                    document.body.appendChild(newScript);
+                                    document.body.removeChild(newScript);
+                                });
+                            })
+                            .catch(error => {
+                                console.error("Error loading chart data:", error);
+                            });
+                    });
+                    document.getElementById("clearBtn").addEventListener("click", function() {
+                        const form = document.getElementById("filterForm");
+
+                        // Reset values to default
+                        form.from_date.value = new Date(new Date().getFullYear(), 0, 1).toISOString().split("T")[0]; // Jan 1st
+                        form.to_date.value = new Date(new Date().getFullYear(), 11, 31).toISOString().split("T")[0]; // Dec 31st
+                        form.category.value = '';
+                        updateSubCategories2(); // reset sub_cat options
+                        form.sub_cat.value = '';
+
+                        // Trigger chart refresh with default values
+                        document.getElementById("filterBtn").click();
+                    });
+
+
+
+                });
+                window.addEventListener("load", () => {
+                    document.getElementById("filterBtn").click();
                 });
             </script>
+
+
+            <div id="chart-container">
+                <!-- Chart content will be loaded here -->
+            </div>
+
         </div>
 
     </div>
@@ -819,6 +571,21 @@ require_once "database.php";
 
         .filter-form2 button:hover {
             background-color: #306bb8;
+        }
+
+        .filter-form2 .btn-clear {
+            background-color: #e0e0e0;
+            color: #333;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .filter-form2 .btn-clear:hover {
+            background-color: #c5c5c5;
         }
     </style>
 
