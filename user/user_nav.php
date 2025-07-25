@@ -69,7 +69,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
     <div class="navbar">
         <div class="header">
             <a href="#">
-                <img src="../images/logo2.png" alt="" style="background-color: transparent; width: 180px; height: 150px;">
+                <img src="../images/logo2.png" alt="" style="background-color: transparent; width: 160px; margin-top: 15px;">
                 <hr>
             </a>
         </div>
@@ -172,7 +172,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             height: 65px;
             min-width: 82%;
             margin-left: 100px;
-            background-color: rgb(151, 0, 0);
+            background-color: #343a40;
             border-radius: 15px;
             border: 1px black solid;
             display: flex;
