@@ -13,7 +13,27 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
   overflow-y: auto;
 }
+/* Description content div inside the cell */
+.description-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
 
+th i {
+  color: white;
+}
+
+/* On hover: show full content */
+td.description-cell:hover .description-content {
+  white-space: normal;
+  background-color: #f8f9fa;
+  padding: 4px;
+  border-radius: 4px;
+  z-index: 2;
+  position: relative;
+}
 :root {
   --primary-blue: #2163ce;
   --secondary-blue: #1a56b4;

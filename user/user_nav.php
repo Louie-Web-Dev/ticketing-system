@@ -33,13 +33,11 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
     <script>
         function logout() {
-            var confirmationMessage = "Are you sure you want to logout?";
-            var confirmLogout = confirm(confirmationMessage);
-            if (confirmLogout) {
-                window.location.href = "logout.php";
-            }
+            var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+            logoutModal.show();
         }
     </script>
+
 
 
 </head>
@@ -132,6 +130,26 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
     </div>
 
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="logout.php" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <style>
         @import url(https://fonts.googleapis.com/css?family=Oswald:400);
         @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&family=Merriweather:wght@300&family=Oswald:wght@300;400&family=Rubik&family=Tiro+Tamil&display=swap');
@@ -164,6 +182,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         .add-report {
             position: relative;
             display: inline-block;
+            margin-top: 60px;
         }
 
         .add-report .badge {

@@ -229,6 +229,60 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
             </div>
         </div>
     </div>
+
+    <!-- Confirm Submit Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Submission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Proceed with your Concern?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmSubmit">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-success">
+                <div class="modal-header">
+                    <h5 class="modal-title">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Filed Successfully!<br>PLEASE PROCEED TO PENDING PAGE AND CLICK DONE IF THE CONCERN IS FINISHED!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="location.reload()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-danger">
+                <div class="modal-header">
+                    <h5 class="modal-title">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="errorText"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Add this before your own script -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -285,47 +339,31 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
                 }
             });
 
-            // Form submission handler
+            let formDataGlobal = null; // store validated form data globally
+
             $('#concernForm').on('submit', function(e) {
                 e.preventDefault();
 
-                var conf = confirm("Proceed with your Concern?");
-                if (!conf) return false;
-
-                // Basic form validation
+                // Validation
                 var concern_type = $('#concern_type').val();
                 var catgry = $('#catgry').val();
                 var desc_ = $('#desc_').val();
 
-                if (!concern_type) {
-                    alert("Please select a concern type");
-                    return false;
-                }
+                if (!concern_type) return alert("Please select a concern type");
+                if (!catgry) return alert("Please select a category");
+                if (!desc_) return alert("Please enter a description");
 
-                if (!catgry) {
-                    alert("Please select a category");
-                    return false;
-                }
-
-                if (!desc_) {
-                    alert("Please enter a description");
-                    return false;
-                }
-
-                // Checkbox validation
                 var selected = [];
                 $(".sub_cat:checked").each(function() {
                     selected.push($(this).val());
                 });
 
-                // For categories that have sub-categories, require at least one selection
                 if (catgry !== "Others" && selected.length === 0) {
-                    alert("Please check at least one sub-category");
-                    return false;
+                    return alert("Please check at least one sub-category");
                 }
 
-                // Prepare data
-                var formData = {
+                // Store form data
+                formDataGlobal = {
                     'ticket_no': $('#ticket_no').val(),
                     'name_': $('#name_').val(),
                     'department': $('#department').val(),
@@ -336,20 +374,32 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
                     'concern_type': concern_type
                 };
 
-                // Submit via AJAX
+                // Show confirmation modal
+                var confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+                confirmModal.show();
+            });
+
+            // When user clicks "Proceed" in modal
+            $('#confirmSubmit').on('click', function() {
+                var confirmModalEl = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+                confirmModalEl.hide();
+
                 $.ajax({
                     url: "insert_concern.php",
                     type: "POST",
-                    data: formData,
+                    data: formDataGlobal,
                     success: function(response) {
-                        alert("Filed Successfully!\nPLEASE PROCEED TO PENDING PAGE AND CLICK DONE IF THE CONCERN IS FINISHED!");
-                        location.reload();
+                        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
                     },
                     error: function(xhr, status, error) {
-                        alert("An error occurred: " + error);
+                        $('#errorText').text("An error occurred: " + error);
+                        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                        errorModal.show();
                     }
                 });
             });
+
         });
     </script>
 </body>

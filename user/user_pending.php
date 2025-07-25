@@ -72,7 +72,8 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
                                                 <td class='text-center'>" . date('M d, Y', strtotime(htmlspecialchars($row["con_date"]))) . "</td>
                                                 <td class='text-center'>" . htmlspecialchars($row["category"]) . "</td>
                                                 <td class='text-center'>" . htmlspecialchars($row["sub_cat"]) . "</td>
-                                                <td class='description-cell text-truncate' title='" . htmlspecialchars($row["description"]) . "'>" . htmlspecialchars($row["description"]) . "</td>
+                                                <td class='description-cell' title='" . htmlspecialchars($row["description"]) . "'>
+                                                    <div class='description-content'>" . htmlspecialchars($row["description"]) . "</div>
                                                 </td>
                                                 <td class='text-center'>" . htmlspecialchars($row["pic"]) . "</td>
                                                 <td class='text-center'><span class='badge bg-warning text-dark'>" . ucfirst(htmlspecialchars($row["status"])) . "</span></td>

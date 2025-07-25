@@ -24,7 +24,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="user_pending.css">
+    <link rel="stylesheet" href="user_history.css">
 </head>
 
 <body>
