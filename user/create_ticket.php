@@ -9,6 +9,12 @@ $date_ = date("Y-m-d h:i:sa");
 
 $ticket_num = $year . "-" .  $random_num;
 $name_q = $_SESSION['name'];
+
+if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
+    header("Location: login.php");
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>

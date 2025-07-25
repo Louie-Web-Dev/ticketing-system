@@ -1,14 +1,52 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 
-if (isset($_SESSION["pos"])) {
-    switch ($_SESSION["pos"]) {
-        case "admin":
-            header("Location: /TSP-system/ticketing-system/admin/dashboard.php");
-            break;
+if (isset($_POST["login"])) {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    // Store username in session for persistence
+    $_SESSION['login_username'] = $username;
+
+    require_once "database.php";
+
+    $sql = "SELECT * FROM user WHERE username = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    if ($user) {
+        if ($password === $user["password"]) {
+            // Clear temporary session data
+            unset($_SESSION['login_username']);
+            unset($_SESSION['login_error']);
+
+            $_SESSION["user"] = "yes";
+            $_SESSION["username"] = $user["username"];
+            $_SESSION["pos"] = $user["pos"];
+            $_SESSION["name"] = $user["name"];
+            $_SESSION["department"] = $user["department"];
+
+            switch ($_SESSION["pos"]) {
+                case "admin":
+                    header("Location: /TSP-system/ticketing-system/admin/dashboard.php");
+                    exit();
+                default:
+                    header("Location: /TSP-system/ticketing-system/user/create_ticket.php");
+                    exit();
+            }
+        } else {
+            $_SESSION["error_message"] = "Invalid password!";
+            $_SESSION['login_error'] = true;
+        }
+    } else {
+        $_SESSION["error_message"] = "Username does not exist!";
+        $_SESSION['login_error'] = true;
     }
+
+    header("Location: /TSP-System/ticketing-system/");
     exit();
 }
 ?>
@@ -35,74 +73,49 @@ if (isset($_SESSION["pos"])) {
             <h1>Toyota IT<br>Ticketing System</h1>
 
             <form action="login.php" method="post">
+                <!-- Error Message Display -->
+                <?php if (isset($_SESSION['error_message'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show w-75" role="alert">
+                        <?php echo $_SESSION['error_message']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php unset($_SESSION['error_message']); ?>
+                <?php endif; ?>
+
                 <div class="form-group">
-                    <input type="username" placeholder="Enter username:" name="username" class="form-control" required autocomplete="off">
+                    <input type="text"
+                        placeholder="Enter username:"
+                        name="username"
+                        class="form-control <?php echo (isset($_SESSION['login_error'])) ? 'is-invalid' : ''; ?>"
+                        value="<?php echo isset($_SESSION['login_username']) ? htmlspecialchars($_SESSION['login_username']) : ''; ?>"
+                        required
+                        autocomplete="username">
                     <div class="icon">
                         <i class="fa-solid fa-user bg-transparent"></i>
                     </div>
                 </div>
-                <div class="form-group ">
-                    <input type="password" placeholder="Enter Password:" name="password" class="form-control" required autocomplete="off">
+
+                <div class="form-group">
+                    <input type="password"
+                        placeholder="Enter Password:"
+                        name="password"
+                        class="form-control <?php echo (isset($_SESSION['login_error'])) ? 'is-invalid' : ''; ?>"
+                        required
+                        autocomplete="current-password">
                     <div class="icon2">
                         <i class="fa-solid fa-lock bg-transparent"></i>
                     </div>
                 </div>
 
-                <?php
-                if (isset($_POST["login"])) {
-                    $username = $_POST["username"];
-                    $password = $_POST["password"];
-
-                    require_once "database.php";
-
-                    $sql = "SELECT * FROM user WHERE username = ?";
-                    $stmt = mysqli_prepare($conn, $sql);
-                    mysqli_stmt_bind_param($stmt, "s", $username);
-                    mysqli_stmt_execute($stmt);
-                    $result = mysqli_stmt_get_result($stmt);
-                    $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-                    if ($user) {
-
-                        if ($password == $user["password"]) {
-                            $_SESSION["user"] = "yes";
-                            $_SESSION["username"] = $user["username"];
-                            $_SESSION["pos"] = $user["pos"];
-                            $_SESSION["name"] = $user["name"];
-                            $_SESSION["department"] = $user["department"];
-
-                            switch ($_SESSION["pos"]) {
-                                case "admin":
-                                    header("Location: /TSP-system/ticketing-system/admin/dashboard.php");
-                                    exit();
-                                case "":
-                                case null:
-                                    header("Location: /TSP-system/ticketing-system/user/create_ticket.php");
-                                    exit();
-                            }
-                        } else {
-                            $_SESSION["error_message"] = "Invalid password!";
-                        }
-                    } else {
-                        $_SESSION["error_message"] = "Username does not exist!";
-                    }
-
-                    header("Location: /TSP-System/ticketing-system/");
-                    exit();
-                }
-                ?>
-
-
                 <div class="form-btn">
                     <input type="submit" value="Login" name="login" class="btn btn-primary">
                 </div>
-
-
             </form>
 
             <div>
                 <p>Don't have an account? <a href="mailto:admin@company.com?subject=Request%20for%20Account%20Creation" onclick="openOutlook()">Contact Admin</a></p>
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
             <script>
                 function openEmailClient() {

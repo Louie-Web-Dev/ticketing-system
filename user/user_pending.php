@@ -9,6 +9,12 @@ $page = $_SERVER['PHP_SELF'];
 $sec = "10";
 
 $date_acc = date("Y-m-d");
+
+if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
+    header("Location: login.php");
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
