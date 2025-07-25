@@ -25,6 +25,7 @@ $date_acc = date("Y-m-d");
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="user_pending.css">
+
 </head>
 
 <body>
@@ -65,21 +66,12 @@ $date_acc = date("Y-m-d");
                                                 <td class='text-center'>" . date('M d, Y', strtotime(htmlspecialchars($row["con_date"]))) . "</td>
                                                 <td class='text-center'>" . htmlspecialchars($row["category"]) . "</td>
                                                 <td class='text-center'>" . htmlspecialchars($row["sub_cat"]) . "</td>
-                                                <td class='description-cell' title='" . htmlspecialchars($row["description"]) . "'>
-                                                    <div class='description-content'>" . htmlspecialchars($row["description"]) . "</div>
+                                                <td class='description-cell text-truncate' title='" . htmlspecialchars($row["description"]) . "'>" . htmlspecialchars($row["description"]) . "</td>
                                                 </td>
                                                 <td class='text-center'>" . htmlspecialchars($row["pic"]) . "</td>
                                                 <td class='text-center'><span class='badge bg-warning text-dark'>" . ucfirst(htmlspecialchars($row["status"])) . "</span></td>
                                             </tr>";
                                         }
-                                    } else {
-                                        echo "<tr><td colspan='7' class='text-center py-4'>
-                                            <div class='empty-state'>
-                                                <i class='far fa-check-circle fa-3x text-muted mb-3'></i>
-                                                <h5 class='text-muted'>No pending concerns found</h5>
-                                                <p class='text-muted'>All your tickets have been processed</p>
-                                            </div>
-                                        </td></tr>";
                                     }
                                     ?>
                                 </tbody>
@@ -102,6 +94,11 @@ $date_acc = date("Y-m-d");
 
     <script>
         $(document).ready(function() {
+
+            $('#tblConcerns tbody tr').each(function() {
+                if ($(this).find('td').length !== 7) console.log('Row with incorrect columns:', this);
+            });
+
             $('#tblConcerns').DataTable({
                 responsive: true,
                 language: {

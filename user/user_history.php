@@ -68,14 +68,6 @@ $name_q = $_SESSION['name'];
                                                 <td class='text-center'><span class='badge bg-success'>" . ucfirst(htmlspecialchars($row["status"])) . "</span></td>
                                             </tr>";
                                         }
-                                    } else {
-                                        echo "<tr><td colspan='8' class='text-center py-4'>
-                                            <div class='empty-state'>
-                                                <i class='far fa-folder-open fa-3x text-muted mb-3'></i>
-                                                <h5 class='text-muted'>No completed concerns found</h5>
-                                                <p class='text-muted'>Your completed tickets will appear here</p>
-                                            </div>
-                                        </td></tr>";
                                     }
                                     ?>
                                 </tbody>

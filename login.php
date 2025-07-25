@@ -77,7 +77,7 @@ if (isset($_SESSION["pos"])) {
                                     exit();
                                 case "":
                                 case null:
-                                    header("Location: /TSP-system/ticketing-system/user/user_dashboard.php");
+                                    header("Location: /TSP-system/ticketing-system/user/create_ticket.php");
                                     exit();
                             }
                         } else {
@@ -87,7 +87,7 @@ if (isset($_SESSION["pos"])) {
                         $_SESSION["error_message"] = "Username does not exist!";
                     }
 
-                    header("Location: index.php");
+                    header("Location: /TSP-System/ticketing-system/");
                     exit();
                 }
                 ?>
