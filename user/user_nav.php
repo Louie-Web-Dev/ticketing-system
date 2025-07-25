@@ -1,5 +1,16 @@
 <?php
 ob_start();
+include 'database.php';
+
+$pendingCount = 0;
+
+// Query to get count of pending concerns
+$sql_count = "SELECT COUNT(*) AS total FROM concerns WHERE status = 'pending' AND name = '$name_q'";
+$result = mysqli_query($conn, $sql_count);
+
+if ($result && $row = mysqli_fetch_assoc($result)) {
+    $pendingCount = (int)$row['total'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -67,10 +78,15 @@ ob_start();
 
         <div class="nav">
 
-            <div class="add-report bg-transparent">
-                <a href="user_pending.php" class="bg-transparent">
+            <div class="add-report bg-transparent position-relative">
+                <a href="user_pending.php" class="bg-transparent text-decoration-none text-dark">
                     <i class="fa-solid fa-hourglass-half bg-transparent"></i>
                     Pending
+                    <?php if ($pendingCount > 0): ?>
+                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
+                            <?= $pendingCount ?>
+                        </span>
+                    <?php endif; ?>
                 </a>
             </div>
 
@@ -144,6 +160,17 @@ ob_start();
             display: flex;
             z-index: 1;
         }
+
+        .add-report {
+            position: relative;
+            display: inline-block;
+        }
+
+        .add-report .badge {
+            font-size: 0.7rem;
+            padding: 0.4em 0.6em;
+        }
+
 
         h1 {
             margin: 3.5px;
