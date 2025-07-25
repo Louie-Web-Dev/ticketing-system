@@ -53,7 +53,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
                                         <th><i class="fas fa-tag me-1"></i> Category</th>
                                         <th><i class="fas fa-tags me-1"></i> Sub-Category</th>
                                         <th><i class="fas fa-align-left me-1"></i> Description</th>
-                                        <th><i class="fas fa-user-tie me-1"></i> PIC</th>
+                                        <th><i class="fas fa-user-tie me-1"></i> Person In-Charge</th>
                                         <th><i class="fas fa-info-circle me-1"></i> Status</th>
                                     </tr>
                                 </thead>
