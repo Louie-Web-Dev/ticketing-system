@@ -30,6 +30,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
     <link rel="icon" type="image/x-icon" href="images/logo2.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
     <script>
         function logout() {
@@ -56,6 +57,8 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         </script>
 
         <div class="navigation">
+
+            <h1 style="display: inline-block;"> <?php echo  $_SESSION['name']; ?></h1>
 
             <a class="button" onclick="logout()">
 
@@ -154,6 +157,10 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         @import url(https://fonts.googleapis.com/css?family=Oswald:400);
         @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&family=Merriweather:wght@300&family=Oswald:wght@300;400&family=Rubik&family=Tiro+Tamil&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap');
+
+        .navigation h1 {
+            font-family: 'Inter', sans-serif;
+        }
 
         .color-bg {
             position: fixed;
