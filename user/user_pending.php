@@ -68,7 +68,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
                                     if ($retval && $retval->num_rows > 0) {
                                         while ($row = $retval->fetch_assoc()) {
                                             echo "<tr>
-                                                <td class='ticket-no text-center fw-bold'>" . htmlspecialchars($row["ticket_no"]) . "</td>
+                                                <td class='ticket-no text-center fw-bold'>" . '#' . htmlspecialchars($row["ticket_no"]) . "</td>
                                                 <td class='text-center'>" . date('M d, Y', strtotime(htmlspecialchars($row["con_date"]))) . "</td>
                                                 <td class='text-center'>" . htmlspecialchars($row["category"]) . "</td>
                                                 <td class='text-center'>" . htmlspecialchars($row["sub_cat"]) . "</td>
