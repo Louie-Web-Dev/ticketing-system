@@ -242,7 +242,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             height: 65px;
             min-width: 82%;
             margin-left: 100px;
-            background-color: #418bebff;
+            background-color: #000000ff;
             border-radius: 15px;
             border: 1px black solid;
             display: flex;

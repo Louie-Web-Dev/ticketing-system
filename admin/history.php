@@ -67,38 +67,103 @@ require_once "database.php";
                         <th>CATEGORY</th>
                         <th>SUB-CATEGORY</th>
                         <th>DESCRIPTION</th>
-                        <th>TYPE</th>
+                        <th>DATE DONE</th>
+                        <th>PIC</th>
                         <th>STATUS</th>
-                        <th>ACTION</th>
                     </tr>
                 </thead>
 
-                <tbody id="pendingTableBody">
+                <tbody>
+                    <?php
+                    require_once "database.php";
+
+                    $entriesPerPage = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $startFrom = ($page - 1) * $entriesPerPage;
+
+                    // Count total records
+                    $countSql = "SELECT COUNT(*) AS total FROM concerns WHERE status = 'done'";
+                    $countResult = mysqli_query($conn, $countSql);
+                    $totalRows = mysqli_fetch_assoc($countResult)['total'];
+                    $totalPages = ceil($totalRows / $entriesPerPage);
+
+                    // Fetch paginated data
+                    $sql = "SELECT * FROM concerns WHERE status = 'done' ORDER BY id DESC LIMIT $startFrom, $entriesPerPage";
+                    $result = mysqli_query($conn, $sql);
+
+
+                    if (mysqli_num_rows($result) > 0):
+                        while ($row = mysqli_fetch_assoc($result)):
+                    ?>
+
+                            <tr>
+                                <td class="ticket-no"><?php echo htmlspecialchars($row['ticket_no']); ?></td>
+                                <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                <td><?php echo htmlspecialchars($row['department']); ?></td>
+                                <td><?php echo htmlspecialchars($row['con_date']); ?></td>
+                                <td><?php echo htmlspecialchars($row['category']); ?></td>
+                                <td><?php echo htmlspecialchars($row['sub_cat']); ?></td>
+                                <td>
+                                    <div class="tooltip-container">
+                                        <?= htmlspecialchars(mb_strimwidth($row['description'], 0, 30, '...')) ?>
+                                        <span class="tooltip-text"><?= htmlspecialchars($row['description']) ?></span>
+                                    </div>
+                                </td>
+
+                                <td><?php echo htmlspecialchars($row['date_accomplished']); ?></td>
+                                <td><?php echo htmlspecialchars($row['pic']); ?></td>
+
+                                <td><?php echo htmlspecialchars($row['status']); ?></td>
+
+
+                            </tr>
+
+                        <?php
+                        endwhile;
+                    else: ?>
+                        <tr>
+                            <td colspan="10">No pending concerns found.</td>
+                        </tr>
+                    <?php endif; ?>
 
                 </tbody>
             </table>
         </div>
+        <div style="text-align:center; margin-top: 15px;">
+            <?php
+            $visiblePages = 3;
+            $startPage = max(1, $page - floor($visiblePages / 2));
+            $endPage = min($totalPages, $startPage + $visiblePages - 1);
+
+            if ($startPage > 1) {
+                $startPage = max(1, $endPage - $visiblePages + 1);
+            }
+
+            // Prev
+            if ($page > 1) {
+                echo '<a href="?page=' . ($page - 1) . '&limit=' . $entriesPerPage . '" style="margin:0 5px;">&laquo; Prev</a>';
+            }
+
+            // Page numbers
+            for ($i = $startPage; $i <= $endPage; $i++) {
+                echo '<a href="?page=' . $i . '&limit=' . $entriesPerPage . '" style="margin:0 5px; padding: 6px 10px; border: 1px solid #ccc; background: ' . ($i == $page ? '#9cc5fa' : '#fff') . '; color: ' . ($i == $page ? '#000' : '#007bff') . '; text-decoration: none; border-radius: 4px;">' . $i . '</a>';
+            }
+
+            // Next
+            if ($page < $totalPages) {
+                echo '<a href="?page=' . ($page + 1) . '&limit=' . $entriesPerPage . '" style="margin:0 5px;">Next &raquo;</a>';
+            }
+            ?>
+        </div>
 
         <script>
-            // table js
-            function loadPendingConcerns() {
-                $.ajax({
-                    url: "get_pending.php",
-                    type: "GET",
-                    success: function(data) {
-                        $("#pendingTableBody").html(data);
-                        filterTable();
-                    },
-                    error: function() {
-                        $("#pendingTableBody").html("<tr><td colspan='10'>Failed to load data.</td></tr>");
-                    }
-                });
+            function changeLimit(select) {
+                const limit = select.value;
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('limit', limit);
+                urlParams.set('page', 1); // reset to first page
+                window.location.search = urlParams.toString();
             }
-            setInterval(loadPendingConcerns, 5000);
-
-            $(document).ready(function() {
-                loadPendingConcerns();
-            });
         </script>
 
         <script>
@@ -118,39 +183,7 @@ require_once "database.php";
 
     </div>
 
-    <div id="statusModal" class="modal" style="display:none; position:fixed; z-index:1000; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6);">
-        <div class="modal-content" style="background:white; padding:20px; margin:20% auto; width:500px; border-radius:8px; position:relative;">
 
-            <p>Are you sure this concern is already <strong>Done</strong>?</p>
-            <form method="POST" action="update_status.php" style="margin-top: 20px;">
-                <input type="hidden" name="id" id="modal_concern_id">
-                <input type="hidden" name="status" value="done">
-                <div style="text-align: right;">
-                    <button type="button" onclick="closeStatusModal()" style="padding: 6px 12px; background: #ccc; border: none; border-radius: 4px; margin-right: 10px;">Cancel</button>
-                    <button type="submit" style="padding: 6px 12px; background: #4f93ecff; color: white; border: none; border-radius: 4px;">Proceed</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // modal js
-        function openStatusModal(id) {
-            document.getElementById('modal_concern_id').value = id;
-            document.getElementById('statusModal').style.display = 'block';
-        }
-
-        function closeStatusModal() {
-            document.getElementById('statusModal').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('statusModal');
-            if (event.target === modal) {
-                closeStatusModal();
-            }
-        }
-    </script>
 
     <script>
         // search js
@@ -299,7 +332,7 @@ require_once "database.php";
             z-index: 1000;
             width: 300px;
             bottom: 125%;
-            /* show above the cell */
+
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
