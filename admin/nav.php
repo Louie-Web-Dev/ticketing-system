@@ -1,5 +1,16 @@
 <?php
 ob_start();
+include 'database.php';
+
+$pendingCount = 0;
+
+// Query to get count of pending concerns
+$sql_count = "SELECT COUNT(*) AS total FROM concerns WHERE status = 'pending' AND name = '$name_q'";
+$result = mysqli_query($conn, $sql_count);
+
+if ($result && $row = mysqli_fetch_assoc($result)) {
+    $pendingCount = (int)$row['total'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +45,12 @@ ob_start();
 </head>
 
 <body>
+
+    <!-- Hidden audio element -->
+    <audio id="notificationSound" preload="auto">
+        <source src="notif/notif.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="container">
         <label for="title" id="text-one">Toyota IT Ticketing System |</label>
         <h1 id="datetime"></h1>
@@ -185,13 +202,13 @@ ob_start();
         </script>
 
         <script>
-            window.addEventListener('resize', function () {
+            window.addEventListener('resize', function() {
                 const navContent = document.querySelector('.navbar .nav');
                 const toggleBtn = document.querySelector('.togglebtn');
 
                 if (window.innerWidth > 1555) {
                     navContent.style.display = 'block';
-                    sessionStorage.removeItem('navState'); 
+                    sessionStorage.removeItem('navState');
                 } else {
                     if (sessionStorage.getItem('navState') === 'none') {
                         navContent.style.display = 'none';
@@ -521,6 +538,48 @@ ob_start();
             }
         }
     </style>
+
+    <script>
+        // Store the previous count
+        let lastCount = <?php echo $pendingCount; ?>;
+
+        // Function to play sound and log it
+        function playNotificationSound() {
+            console.log("[Sound] Playing notification sound!"); // Log sound event
+            // Example: Use the Web Audio API or an <audio> element
+            const audio = new Audio('notif/notif.mp3'); // Replace with your sound file
+            audio.play().catch(e => console.error("Sound error:", e));
+        }
+
+        // Function to check for count changes
+        function checkPendingUpdates() {
+            fetch('get_pending_count.php?user=<?php echo urlencode($name_q); ?>')
+                .then(response => response.json())
+                .then(data => {
+                    const currentCount = data.count;
+                    const badge = document.getElementById('pendingBadge');
+
+                    // Only trigger when count increased
+                    if (currentCount > lastCount) {
+                        badge.textContent = currentCount;
+                        console.log(`[Notification] New pending tickets! (Total: ${currentCount})`);
+                        playNotificationSound(); // Play sound + log
+                    } else if (currentCount != lastCount) {
+                        badge.textContent = currentCount;
+                        console.log(`[Notification] Pending count changed to: ${currentCount}`);
+                    }
+
+                    lastCount = currentCount;
+                })
+                .catch(error => console.error('Fetch error:', error));
+        }
+
+        // Check every 3 seconds
+        setInterval(checkPendingUpdates, 1000);
+
+        // Initial check
+        checkPendingUpdates();
+    </script>
 
 
 </body>

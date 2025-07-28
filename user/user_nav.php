@@ -1,16 +1,5 @@
 <?php
 ob_start();
-include 'database.php';
-
-$pendingCount = 0;
-
-// Query to get count of pending concerns
-$sql_count = "SELECT COUNT(*) AS total FROM concerns WHERE status = 'pending' AND name = '$name_q'";
-$result = mysqli_query($conn, $sql_count);
-
-if ($result && $row = mysqli_fetch_assoc($result)) {
-    $pendingCount = (int)$row['total'];
-}
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +73,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                     <i class="fa-solid fa-hourglass-half bg-transparent"></i>
                     Pending
                     <?php if ($pendingCount > 0): ?>
-                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
+                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill" id="pendingBadge">
                             <?= $pendingCount ?>
                         </span>
                     <?php endif; ?>
@@ -493,7 +482,6 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             }
         }
     </style>
-
 
 </body>
 
