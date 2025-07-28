@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,16 +97,19 @@
             position: relative;
         }
 
-        .password-container button.toggle-password {
+        .password-container .toggle-password {
             position: absolute;
-            right: 10px;
-            top: 35px;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
             background: none;
             border: none;
             padding: 0;
             color: #6c757d;
             cursor: pointer;
+            font-size: 18px;
         }
+
 
         .form-btn {
             text-align: center;
@@ -230,7 +236,6 @@
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <div id="password-strength" class="password-strength"></div>
                     </div>
 
                     <div class="form-group">
@@ -241,7 +246,7 @@
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <div id="password-match" class="password-strength"></div>
+                        <div id="password-match"></div>
                     </div>
 
                     <div class="admin-checkbox">
@@ -282,19 +287,6 @@
                 icon.classList.replace('fa-eye-slash', 'fa-eye');
             }
         }
-        // Form validation
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm_password').value;
-
-            if (password !== confirmPassword) {
-                e.preventDefault();
-                alert('Passwords do not match!');
-                return;
-            }
-
-            // You can add more validations here if needed
-        });
     </script>
 </body>
 
