@@ -133,6 +133,41 @@ require_once "database.php";
         </div>
     </div>
 
+    <div id="onHoldModal" class="modal" style="display:none; position:fixed; z-index:1000; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6);">
+        <div class="modal-content" style="background:white; padding:20px; margin:20% auto; width:500px; border-radius:8px; position:relative;">
+            <p>Are you sure you want to put this concern <strong>On-Hold</strong>?</p>
+            <form method="POST" action="update_status.php" style="margin-top: 20px;">
+                <input type="hidden" name="id" id="onhold_concern_id">
+                <input type="hidden" name="status" value="on-hold">
+                <div style="text-align: right;">
+                    <button type="button" onclick="closeOnHoldModal()" style="padding: 6px 12px; background: #ccc; border: none; border-radius: 4px; margin-right: 10px;">Cancel</button>
+                    <button type="submit" style="padding: 6px 12px; background: orange; color: white; border: none; border-radius: 4px;">Proceed</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openOnHoldModal(id) {
+            document.getElementById('onhold_concern_id').value = id;
+            document.getElementById('onHoldModal').style.display = 'block';
+        }
+
+        function closeOnHoldModal() {
+            document.getElementById('onHoldModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('statusModal')) {
+                closeStatusModal();
+            } else if (event.target === document.getElementById('onHoldModal')) {
+                closeOnHoldModal();
+            }
+        }
+    </script>
+
+
+
     <script>
         // modal js
         function openStatusModal(id) {

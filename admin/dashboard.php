@@ -103,6 +103,7 @@ require_once "database.php";
                             <tr>
                                 <th>Month</th>
                                 <th>Pending</th>
+                                <th>On-Hold</th>
                                 <th>Solved</th>
                             </tr>
                         </thead>
@@ -397,7 +398,7 @@ require_once "database.php";
             border-radius: 15px;
             font-weight: bold;
             display: grid;
-            grid-template-columns: repeat(2, auto);
+            grid-template-columns: repeat(3, auto);
             z-index: 1;
         }
 
