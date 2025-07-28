@@ -37,16 +37,7 @@ require_once "database.php";
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; margin-right: 15px; padding: 0 10px;">
-            <div>
-                Show
-                <select id="entriesCount" onchange="filterTable()" style="padding: 4px 8px; margin: 0 5px; border: 1px solid #ccc; border-radius: 4px;">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-                Entries
-            </div>
+
 
             <div>
                 Search:
@@ -77,7 +68,7 @@ require_once "database.php";
                     <?php
                     require_once "database.php";
 
-                    $entriesPerPage = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+                    $entriesPerPage = isset($_GET['limit']) ? (int)$_GET['limit'] : 16;
                     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                     $startFrom = ($page - 1) * $entriesPerPage;
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION["user"]) || $_SESSION["pos"] !== "admin") {
+if (!isset($_SESSION["name"]) || $_SESSION["pos"] !== "admin") {
     header("Location: /TSP-System/ticketing-system/");
     exit();
 }
