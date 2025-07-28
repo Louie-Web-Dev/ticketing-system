@@ -5,7 +5,7 @@ include 'database.php';
 $pendingCount = 0;
 
 // Query to get count of pending concerns
-$sql_count = "SELECT COUNT(*) AS total FROM concerns WHERE status = 'pending' AND name = '$name_q'";
+$sql_count = "SELECT COUNT(*) AS total FROM concerns WHERE status = 'pending'";
 $result = mysqli_query($conn, $sql_count);
 
 if ($result && $row = mysqli_fetch_assoc($result)) {
@@ -45,12 +45,6 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 </head>
 
 <body>
-
-    <!-- Hidden audio element -->
-    <audio id="notificationSound" preload="auto">
-        <source src="notif/notif.mp3" type="audio/mpeg">
-    </audio>
-
     <div class="container">
         <label for="title" id="text-one">Toyota IT Ticketing System |</label>
         <h1 id="datetime"></h1>
@@ -94,6 +88,11 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                 <a href="pending.php" class="bg-transparent">
                     <i class="fa-solid fa-spinner fa-spin"></i>
                     <span class="bg-transparent no-underline">PENDING</span>
+                    <?php if ($pendingCount > 0): ?>
+                        <span class="badge bg-danger position-absolute top-1 start-95 translate-middle rounded-pill" id="pendingBadge">
+                            <?= $pendingCount ?>
+                        </span>
+                    <?php endif; ?>
                 </a>
             </div>
 
@@ -242,7 +241,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             height: 65px;
             min-width: 82%;
             margin-left: 100px;
-            background-color: #000000ff;
+            background-color: #418bebff;
             border-radius: 15px;
             border: 1px black solid;
             display: flex;
@@ -553,7 +552,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
         // Function to check for count changes
         function checkPendingUpdates() {
-            fetch('get_pending_count.php?user=<?php echo urlencode($name_q); ?>')
+            fetch('get_pending_count.php')
                 .then(response => response.json())
                 .then(data => {
                     const currentCount = data.count;

@@ -1,5 +1,16 @@
 <?php
 ob_start();
+include 'database.php';
+
+$pendingCount = 0;
+
+// Query to get count of pending concerns
+$sql_count = "SELECT COUNT(*) AS total FROM concerns WHERE status = 'pending' AND name = '$name_q'";
+$result = mysqli_query($conn, $sql_count);
+
+if ($result && $row = mysqli_fetch_assoc($result)) {
+    $pendingCount = (int)$row['total'];
+}
 ?>
 
 <!DOCTYPE html>
