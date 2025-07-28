@@ -10,18 +10,6 @@ $sec = "10";
 
 $date_acc = date("Y-m-d");
 
-if (isset($_SESSION["pos"])) {
-    switch ($_SESSION["pos"]) {
-        case "admin":
-            header("Location: /TSP-system/ticketing-system/admin/dashboard.php");
-            break;
-        case "":
-            header("Location: /TSP-system/ticketing-system/user/create_ticket.php");
-            break;
-    }
-    exit();
-}
-
 if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
     header("Location: /TSP-system/ticketing-system/");
     exit();
