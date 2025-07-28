@@ -33,7 +33,7 @@ require_once "database.php";
 
     <div class="pendingContainer">
         <div class="displaypending bg-transparent">
-            <h1>History</h1>
+            <h1>History Logs</h1>
         </div>
 
         <div style="display: flex; justify-content: right; align-items: center; margin-bottom: 10px; margin-right: 15px; padding: 0 10px;">
