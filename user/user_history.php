@@ -4,8 +4,20 @@ session_start();
 
 $name_q = $_SESSION['name'];
 
+if (isset($_SESSION["pos"])) {
+    switch ($_SESSION["pos"]) {
+        case "admin":
+            header("Location: /TSP-system/ticketing-system/admin/dashboard.php");
+            break;
+        case "":
+            header("Location: /TSP-system/ticketing-system/user/create_ticket.php");
+            break;
+    }
+    exit();
+}
+
 if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
-    header("Location: login.php");
+    header("Location: /TSP-system/ticketing-system/");
     exit();
 }
 

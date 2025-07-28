@@ -1,5 +1,19 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION["pos"])) {
+    switch ($_SESSION["pos"]) {
+        case "admin":
+            header("Location: /TSP-system/ticketing-system/admin/dashboard.php");
+            break;
+        case "":
+            header("Location: /TSP-system/ticketing-system/user/create_ticket.php");
+            break;
+    }
+    exit();
+}
 
 if (isset($_POST["login"])) {
     $username = $_POST["username"];
