@@ -33,27 +33,33 @@ require_once "database.php";
 
     <div class="pendingContainer">
         <div class="displaypending bg-transparent">
-            <h1>Pending Concerns</h1>
+            <h1>History Logs</h1>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; margin-right: 15px; padding: 0 10px;">
-            <div>
-                Show
-                <select id="entriesCount" onchange="filterTable()" style="padding: 4px 8px; margin: 0 5px; border: 1px solid #ccc; border-radius: 4px;">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-                Entries
-            </div>
+        <div style="display: flex; justify-content: right; align-items: center; margin-bottom: 10px; margin-right: 15px; padding: 0 10px;">
+
 
             <div>
                 Search:
-                <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search..." style="padding: 4px 8px; margin-left: 5px; border: 1px solid #ccc;">
-                <button onclick="clearSearch()" style=" background-color: #e0e0e0; color: #333; border: none; padding: 6px 10px; border-radius: 4px; font-size: 14px; cursor: pointer; transition: background-color 0.2s ease;">
-                    Clear</button>
+                <input type="text" id="searchInput"
+                    placeholder="Search..."
+                    value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+                    onkeydown="if(event.key === 'Enter') searchNow();"
+                    style="padding: 4px 8px; margin-left: 5px; border: 1px solid #ccc;">
+
+                <button onclick="searchNow()"
+                    style="background-color: #418bebff; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 14px; cursor: pointer; margin-left: 5px;">
+                    Search
+                </button>
+
+                <button onclick="clearSearch()"
+                    style="background-color: #e0e0e0; color: #333; border: none; padding: 6px 10px; border-radius: 4px; font-size: 14px; cursor: pointer; margin-left: 5px;">
+                    Clear
+                </button>
             </div>
+
+
+
         </div>
 
         <div class="table-section">
@@ -77,19 +83,37 @@ require_once "database.php";
                     <?php
                     require_once "database.php";
 
-                    $entriesPerPage = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+                    $entriesPerPage = isset($_GET['limit']) ? (int)$_GET['limit'] : 16;
                     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                     $startFrom = ($page - 1) * $entriesPerPage;
 
                     // Count total records
-                    $countSql = "SELECT COUNT(*) AS total FROM concerns WHERE status = 'done'";
+                    $searchTerm = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+
+                    $where = "WHERE status = 'done'";
+                    if (!empty($searchTerm)) {
+                        $where .= " AND (
+                            ticket_no LIKE '%$searchTerm%' OR
+                            name LIKE '%$searchTerm%' OR
+                            department LIKE '%$searchTerm%' OR
+                            category LIKE '%$searchTerm%' OR
+                            sub_cat LIKE '%$searchTerm%' OR
+                            description LIKE '%$searchTerm%' OR
+                            date_accomplished LIKE '%$searchTerm%' OR
+                            pic LIKE '%$searchTerm%'
+                        )";
+                    }
+
+                    // Count filtered rows
+                    $countSql = "SELECT COUNT(*) AS total FROM concerns $where";
                     $countResult = mysqli_query($conn, $countSql);
                     $totalRows = mysqli_fetch_assoc($countResult)['total'];
                     $totalPages = ceil($totalRows / $entriesPerPage);
 
-                    // Fetch paginated data
-                    $sql = "SELECT * FROM concerns WHERE status = 'done' ORDER BY id DESC LIMIT $startFrom, $entriesPerPage";
+                    // Fetch filtered, paginated results
+                    $sql = "SELECT * FROM concerns $where ORDER BY id DESC LIMIT $startFrom, $entriesPerPage";
                     $result = mysqli_query($conn, $sql);
+
 
 
                     if (mysqli_num_rows($result) > 0):
@@ -139,32 +163,26 @@ require_once "database.php";
                 $startPage = max(1, $endPage - $visiblePages + 1);
             }
 
+            // Add search query to links
+            $searchQuery = isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '';
+
             // Prev
             if ($page > 1) {
-                echo '<a href="?page=' . ($page - 1) . '&limit=' . $entriesPerPage . '" style="margin:0 5px;">&laquo; Prev</a>';
+                echo '<a href="?page=' . ($page - 1) . '&limit=' . $entriesPerPage . $searchQuery . '" style="margin:0 5px;">&laquo; Prev</a>';
             }
 
             // Page numbers
             for ($i = $startPage; $i <= $endPage; $i++) {
-                echo '<a href="?page=' . $i . '&limit=' . $entriesPerPage . '" style="margin:0 5px; padding: 6px 10px; border: 1px solid #ccc; background: ' . ($i == $page ? '#9cc5fa' : '#fff') . '; color: ' . ($i == $page ? '#000' : '#007bff') . '; text-decoration: none; border-radius: 4px;">' . $i . '</a>';
+                echo '<a href="?page=' . $i . '&limit=' . $entriesPerPage . $searchQuery . '" style="margin:0 5px; padding: 6px 10px; border: 1px solid #ccc; background: ' . ($i == $page ? '#9cc5fa' : '#fff') . '; color: ' . ($i == $page ? '#000' : '#007bff') . '; text-decoration: none; border-radius: 4px;">' . $i . '</a>';
             }
 
             // Next
             if ($page < $totalPages) {
-                echo '<a href="?page=' . ($page + 1) . '&limit=' . $entriesPerPage . '" style="margin:0 5px;">Next &raquo;</a>';
+                echo '<a href="?page=' . ($page + 1) . '&limit=' . $entriesPerPage . $searchQuery . '" style="margin:0 5px;">Next &raquo;</a>';
             }
             ?>
         </div>
 
-        <script>
-            function changeLimit(select) {
-                const limit = select.value;
-                const urlParams = new URLSearchParams(window.location.search);
-                urlParams.set('limit', limit);
-                urlParams.set('page', 1); // reset to first page
-                window.location.search = urlParams.toString();
-            }
-        </script>
 
         <script>
             // desc js
@@ -186,34 +204,20 @@ require_once "database.php";
 
 
     <script>
-        // search js
-        function filterTable() {
-            const input = document.getElementById("searchInput").value.toLowerCase();
-            const table = document.querySelector(".table-section table");
-            const rows = table.querySelectorAll("tbody tr");
-            const entries = parseInt(document.getElementById("entriesCount").value);
-
-            let shown = 0;
-
-            rows.forEach((row, index) => {
-                const text = row.textContent.toLowerCase();
-                const match = text.includes(input);
-
-                if (match && shown < entries) {
-                    row.style.display = "";
-                    shown++;
-                } else {
-                    row.style.display = "none";
-                }
-            });
+        function searchNow() {
+            const search = document.getElementById("searchInput").value.trim();
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set("search", search);
+            urlParams.set("page", 1); // Reset to first page
+            window.location.search = urlParams.toString();
         }
 
         function clearSearch() {
-            document.getElementById("searchInput").value = "";
-            filterTable();
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete("search");
+            urlParams.set("page", 1);
+            window.location.search = urlParams.toString();
         }
-
-        window.onload = filterTable;
     </script>
 
     <style>
