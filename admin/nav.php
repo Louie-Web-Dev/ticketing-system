@@ -185,13 +185,13 @@ ob_start();
         </script>
 
         <script>
-            window.addEventListener('resize', function () {
+            window.addEventListener('resize', function() {
                 const navContent = document.querySelector('.navbar .nav');
                 const toggleBtn = document.querySelector('.togglebtn');
 
                 if (window.innerWidth > 1555) {
                     navContent.style.display = 'block';
-                    sessionStorage.removeItem('navState'); 
+                    sessionStorage.removeItem('navState');
                 } else {
                     if (sessionStorage.getItem('navState') === 'none') {
                         navContent.style.display = 'none';
@@ -225,7 +225,7 @@ ob_start();
             height: 65px;
             min-width: 82%;
             margin-left: 100px;
-            background-color: #418bebff;
+            background-color: #000000ff;
             border-radius: 15px;
             border: 1px black solid;
             display: flex;
