@@ -1,7 +1,7 @@
 <?php
 require_once "database.php";
 
-$sql = "SELECT * FROM concerns WHERE status = 'Pending' ORDER BY id DESC";
+$sql = "SELECT * FROM concerns WHERE status IN ('Pending', 'on-hold') ORDER BY id DESC";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0):
@@ -24,10 +24,17 @@ if (mysqli_num_rows($result) > 0):
             <td><?php echo htmlspecialchars($row['concern_type']); ?></td>
             <td><?php echo htmlspecialchars($row['status']); ?></td>
             <td>
+                <?php if ($row['status'] !== 'on-hold'): ?>
+                    <a href="javascript:void(0);" onclick="openOnHoldModal(<?php echo $row['id']; ?>)">
+                        <i class="fa-solid fa-bookmark" style="color: orange; font-size: 28px;"></i>
+                    </a>
+                <?php endif; ?>
+
                 <a href="javascript:void(0);" onclick="openStatusModal(<?php echo $row['id']; ?>)">
                     <i class="fa-solid fa-square-check" style="color: green; font-size: 28px;"></i>
                 </a>
             </td>
+
         </tr>
     <?php
     endwhile;
