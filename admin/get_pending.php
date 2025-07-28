@@ -26,7 +26,7 @@ if (mysqli_num_rows($result) > 0):
             <td>
                 <?php if ($row['status'] !== 'on-hold'): ?>
                     <a href="javascript:void(0);" onclick="openOnHoldModal(<?php echo $row['id']; ?>)">
-                        <i class="fa-solid fa-bookmark" style="color: orange; font-size: 28px;"></i>
+                        <i class="fa-solid fa-thumbtack" style="color: orange; font-size: 28px;"></i>
                     </a>
                 <?php endif; ?>
 

@@ -202,15 +202,14 @@ require_once "database.php";
                         require_once "database.php";
 
                         $sql = "SELECT c.pic, COUNT(*) AS concern_count
-        FROM concerns c
-        JOIN user u ON c.pic = u.name
-        WHERE c.pic IS NOT NULL 
-          AND TRIM(c.pic) != '' 
-          AND u.pos = 'admin'
-        GROUP BY c.pic 
-        ORDER BY concern_count DESC 
-        LIMIT 10";
-
+                        FROM concerns c
+                        JOIN user u ON c.pic = u.name
+                        WHERE c.pic IS NOT NULL 
+                        AND TRIM(c.pic) != '' 
+                        AND u.pos = 'admin'
+                        GROUP BY c.pic 
+                        ORDER BY concern_count DESC 
+                        LIMIT 10";
 
                         $result = mysqli_query($conn, $sql);
 
