@@ -58,7 +58,93 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         </script>
 
         <div class="navigation">
-            <h1 style="display: inline-block;"> <?php echo  $_SESSION['name']; ?></h1>
+            <h1 style="display: inline-block;">Welcome! <?php echo  $_SESSION['name']; ?></h1>
+
+
+
+
+
+
+
+
+
+
+            <div class="dropdown">
+                <div class="dropdown-content" id="notificationContent">
+                    <!-- Database items will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Bell icon -->
+            <i class="fa fa-bell" aria-hidden="true" onclick="toggleDropdown()"></i>
+
+            <!-- Notification number (separate span) -->
+            <span id="noti_number" style="color: #EE4B2B; font-weight: bold; margin-left: 5px;"></span>
+
+
+
+
+            <script type="text/javascript">
+                function loadDoc() {
+                    setInterval(function() {
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                document.getElementById("noti_number").innerHTML = this.responseText;
+                                updateNotificationContent();
+                            }
+                        };
+                        xhttp.open("GET", "get_notify.php", true);
+                        xhttp.send();
+                    }, 1000);
+                }
+
+                function toggleDropdown() {
+                    var dropdown = document.querySelector('.dropdown');
+                    dropdown.style.display = (dropdown.style.display === 'none' || dropdown.style.display === '') ? 'block' : 'none';
+                }
+
+                function updateNotificationContent() {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            document.getElementById("notificationContent").innerHTML = this.responseText;
+                            addClickEventToNotifications(); // Add click event to each notification
+                        }
+                    };
+                    xhttp.open("GET", "get_notify_content.php", true);
+                    xhttp.send();
+                }
+
+                function addClickEventToNotifications() {
+                    var notifications = document.querySelectorAll('.notification-item');
+                    notifications.forEach(function(notification) {
+                        notification.addEventListener('click', function() {
+                            // Redirect to the incident-list page or perform other actions
+                            window.location.href = 'pending.php';
+                        });
+                    });
+                }
+
+                loadDoc();
+            </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <a class="button" onclick="logout()">
 
@@ -90,14 +176,14 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                     <i class="fa-solid fa-spinner fa-spin"></i>
                     <span class="bg-transparent no-underline">PENDING</span>
                     <?php if ($pendingCount >= 0): ?>
-                        <span class="badge bg-danger position-absolute top-1 start-95 translate-middle rounded-pill" id="pendingBadge">
+                        <span class="badge bg-danger position-absolute top-1 start-95 translate-middle rounded-pill" id="pendingBadge" style="display: none;">
                             <?= $pendingCount ?>
                         </span>
                     <?php endif; ?>
                 </a>
             </div>
 
-            <div class="history bg-transparent">
+            <div class=" history bg-transparent">
                 <a href="history.php" class="bg-transparent">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <span class="bg-transparent no-underline">HISTORY</span>
@@ -224,6 +310,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         @import url(https://fonts.googleapis.com/css?family=Oswald:400);
         @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&family=Merriweather:wght@300&family=Oswald:wght@300;400&family=Rubik&family=Tiro+Tamil&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&family=Oswald:wght@300&family=Tiro+Tamil&display=swap');
 
         .color-bg {
             position: fixed;
@@ -329,7 +416,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             text-decoration: none;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&family=Oswald:wght@300&family=Tiro+Tamil&display=swap');
+
 
         .navbar {
             position: fixed;
@@ -439,13 +526,17 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
         }
 
+
         .dropdown {
             display: none;
             position: fixed;
             background-color: #f9f9f9;
             min-width: 200px;
+            /* Adjust the width as needed */
             max-height: 300px;
+            /* Adjust the max height as needed */
             overflow-y: auto;
+            /* Enable vertical scroll if content exceeds max height */
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
             z-index: 100;
             color: black;
@@ -466,8 +557,79 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         }
 
         .dropdown::-webkit-scrollbar-track {
-            background: #f9f9f9;
+            background: #173381;
             border-radius: 7px;
+        }
+
+        .notification-item {
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            /* Add a border between notifications */
+            cursor: pointer;
+            /* Add cursor pointer */
+            transition: background-color 0.3s;
+            /* Add smooth transition for background color */
+            background-color: white;
+        }
+
+        .notification-item:hover {
+            background-color: #f0f0f0;
+            /* Add the background color you want on hover */
+        }
+
+        .detail-label,
+        .detail-value {
+            font-weight: 400;
+            margin-bottom: 4px;
+            background-color: white;
+            transition: background-color 0.3s;
+            /* Add smooth transition for background color */
+        }
+
+        .notification-item:hover .detail-label,
+        .notification-item:hover .detail-value {
+            background-color: #f0f0f0;
+            /* Add the background color you want on hover */
+        }
+
+        .detail-label {
+            font-weight: 400;
+            margin-bottom: 4px;
+            background-color: white;
+        }
+
+        .detail-value {
+            margin-bottom: 8px;
+            background-color: white;
+        }
+
+        .notification-item .detail-label {
+            font-weight: 400;
+            margin-bottom: 4px;
+            background-color: white;
+        }
+
+        .notification-item .detail-value {
+            margin-bottom: 8px;
+            background-color: white;
+        }
+
+        #noti_number {
+            margin-top: 25px;
+            font-weight: 400;
+            font-size: 23px;
+        }
+
+        .fa-bell {
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        #noti_number:hover {
+            cursor: pointer;
+            /* Change cursor to pointer on hover */
         }
 
         .togglebtn {
@@ -482,7 +644,6 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
             .nav,
             .header img,
-            .aksyon-bilis,
             .container label {
                 display: none;
             }
