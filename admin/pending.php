@@ -117,75 +117,67 @@ require_once "database.php";
         </script>
 
     </div>
+    <!-- status bootstrap modal -->
 
-    <div id="statusModal" class="modal" style="display:none; position:fixed; z-index:1000; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6);">
-        <div class="modal-content" style="background:white; padding:20px; margin:20% auto; width:500px; border-radius:8px; position:relative;">
-
-            <p>Are you sure this concern is already <strong>Done</strong>?</p>
-            <form method="POST" action="update_status.php" style="margin-top: 20px;">
-                <input type="hidden" name="id" id="modal_concern_id">
-                <input type="hidden" name="status" value="done">
-                <div style="text-align: right;">
-                    <button type="button" onclick="closeStatusModal()" style="padding: 6px 12px; background: #ccc; border: none; border-radius: 4px; margin-right: 10px;">Cancel</button>
-                    <button type="submit" style="padding: 6px 12px; background: #4f93ecff; color: white; border: none; border-radius: 4px;">Proceed</button>
+    <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statusModalLabel">Confirm Status Update</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </form>
+                <div class="modal-body">
+                    Are you sure this concern is already <strong>Done</strong>?
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="update_status.php">
+                        <input type="hidden" name="id" id="modal_concern_id">
+                        <input type="hidden" name="status" value="done">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Proceed</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="onHoldModal" class="modal" style="display:none; position:fixed; z-index:1000; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6);">
-        <div class="modal-content" style="background:white; padding:20px; margin:20% auto; width:500px; border-radius:8px; position:relative;">
-            <p>Are you sure you want to put this concern <strong>On-Hold</strong>?</p>
-            <form method="POST" action="update_status.php" style="margin-top: 20px;">
-                <input type="hidden" name="id" id="onhold_concern_id">
-                <input type="hidden" name="status" value="on-hold">
-                <div style="text-align: right;">
-                    <button type="button" onclick="closeOnHoldModal()" style="padding: 6px 12px; background: #ccc; border: none; border-radius: 4px; margin-right: 10px;">Cancel</button>
-                    <button type="submit" style="padding: 6px 12px; background: orange; color: white; border: none; border-radius: 4px;">Proceed</button>
+    <div class="modal fade" id="onHoldModal" tabindex="-1" aria-labelledby="onHoldModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="onHoldModalLabel">Confirm Status Update</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </form>
+                <div class="modal-body">
+                    Are you sure you want to put this concern <strong>On-Hold</strong>?
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="update_status.php">
+                        <input type="hidden" name="id" id="onhold_concern_id">
+                        <input type="hidden" name="status" value="on-hold">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-warning text-white">Proceed</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
-    <script>
-        function openOnHoldModal(id) {
-            document.getElementById('onhold_concern_id').value = id;
-            document.getElementById('onHoldModal').style.display = 'block';
-        }
-
-        function closeOnHoldModal() {
-            document.getElementById('onHoldModal').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            if (event.target === document.getElementById('statusModal')) {
-                closeStatusModal();
-            } else if (event.target === document.getElementById('onHoldModal')) {
-                closeOnHoldModal();
-            }
-        }
-    </script>
-
-
 
     <script>
         // modal js
         function openStatusModal(id) {
             document.getElementById('modal_concern_id').value = id;
-            document.getElementById('statusModal').style.display = 'block';
+            var modal = new bootstrap.Modal(document.getElementById('statusModal'));
+            modal.show();
         }
 
-        function closeStatusModal() {
-            document.getElementById('statusModal').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('statusModal');
-            if (event.target === modal) {
-                closeStatusModal();
-            }
+        function openOnHoldModal(id) {
+            document.getElementById('onhold_concern_id').value = id;
+            var modal = new bootstrap.Modal(document.getElementById('onHoldModal'));
+            modal.show();
         }
     </script>
+
 
     <script>
         // search js
@@ -302,7 +294,7 @@ require_once "database.php";
 
 
         .table-section th {
-            background-color: #000000ff;
+            background-color: #2e2e2eff;
             color: white;
         }
 

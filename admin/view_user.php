@@ -17,83 +17,23 @@ session_start();
         crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: rgb(221, 221, 221);
-            position: relative;
-        }
-
-        .pendingContainer {
-            display: flex;
-            flex-direction: column;
-            background-color: white;
-            width: 85.5%;
-            height: 91%;
-            position: fixed;
-            right: 10px;
-            margin-top: 83px;
-            border: 1px black solid;
-            border-radius: 15px;
-            padding-bottom: 20px;
-            overflow-y: auto;
-        }
-
-        /* Add this to ensure modals appear above everything */
-        .modal {
-            z-index: 1060 !important;
-        }
-
-        /* Table styles remain the same */
-        .table-section {
-            width: 99%;
-            overflow-x: auto;
-            margin: 0 auto;
-            position: static !important;
-        }
-
-        .table-section table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Merriweather Sans', sans-serif;
-        }
-
-        .table-section th,
-        .table-section td {
-            padding: 10px;
-            border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-            text-align: center;
-        }
-
-        .table-section thead th {
-            font-size: 14px;
-            padding: 20px 10px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background-color: #000000ff;
-            color: white;
-        }
-
-        .table-section tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .table-section tbody tr:nth-child(odd) {
-            background-color: #ffffffff;
-        }
-    </style>
+    <?php include 'nav.php'; ?>
 </head>
 
 <body>
-    <?php include 'nav.php'; ?>
 
     <div class="pendingContainer">
         <div class="displaypending bg-transparent">
             <h1>Users</h1>
         </div>
 
-        <div style="display: flex; justify-content: right; align-items: center; margin-bottom: 10px; margin-right: 15px; padding: 0 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 15px;">
+
+            <a href="create_user.php"
+                style="background-color: #28a745; color: white; text-decoration: none; padding: 6px 10px; border-radius: 4px; font-size: 14px; cursor: pointer;">
+                Add User
+            </a>
+
             <div>
                 Search:
                 <input type="text" id="searchInput"
@@ -113,6 +53,8 @@ session_start();
                 </button>
             </div>
         </div>
+
+
 
         <div class="table-section">
             <table>
@@ -337,6 +279,73 @@ session_start();
             window.location.search = urlParams.toString();
         }
     </script>
+
+    <style>
+        body {
+            background-color: rgb(221, 221, 221);
+            position: relative;
+        }
+
+        .pendingContainer {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            width: 85.5%;
+            height: 91%;
+            position: fixed;
+            right: 10px;
+            margin-top: 83px;
+            border: 1px black solid;
+            border-radius: 15px;
+            padding-bottom: 20px;
+            overflow-y: auto;
+        }
+
+        /* Add this to ensure modals appear above everything */
+        .modal {
+            z-index: 1060 !important;
+        }
+
+        /* Table styles remain the same */
+        .table-section {
+            width: 99%;
+            overflow-x: auto;
+            margin: 0 auto;
+            position: static !important;
+        }
+
+        .table-section table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Merriweather Sans', sans-serif;
+        }
+
+        .table-section th,
+        .table-section td {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .table-section thead th {
+            font-size: 14px;
+            padding: 20px 10px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #000000ff;
+            color: white;
+        }
+
+        .table-section tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table-section tbody tr:nth-child(odd) {
+            background-color: #ffffffff;
+        }
+    </style>
 </body>
 
 </html>

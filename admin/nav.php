@@ -30,21 +30,32 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
     <link rel="icon" type="image/x-icon" href="images/logo2.png">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <script>
-        function logout() {
-            var confirmationMessage = "Are you sure you want to logout?";
-            var confirmLogout = confirm(confirmationMessage);
-            if (confirmLogout) {
-                window.location.href = "logout.php";
-            }
-        }
-    </script>
-
+    <!-- Bootstrap Bundle JS (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
 
 <body>
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="logout.php" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <label for="title" id="text-one">Toyota IT Ticketing System |</label>
         <h1 id="datetime"></h1>
@@ -58,31 +69,17 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         </script>
 
         <div class="navigation">
-            <h1 style="display: inline-block;">Welcome! <?php echo  $_SESSION['name']; ?></h1>
+            <h1 style="display: inline-block; margin-right: 20px;">Welcome! <?php echo  $_SESSION['name']; ?></h1>
 
+            <div style="position: relative; display: inline-block; margin-top: 20px;">
+                <i class="fa fa-bell" aria-hidden="true" onclick="toggleDropdown()"></i>
+                <span id="noti_number">0</span>
+                <div class="dropdown">
+                    <div class="dropdown-content" id="notificationContent">
 
-
-
-
-
-
-
-
-
-            <div class="dropdown">
-                <div class="dropdown-content" id="notificationContent">
-                    <!-- Database items will be displayed here -->
+                    </div>
                 </div>
             </div>
-
-            <!-- Bell icon -->
-            <i class="fa fa-bell" aria-hidden="true" onclick="toggleDropdown()"></i>
-
-            <!-- Notification number (separate span) -->
-            <span id="noti_number" style="color: #EE4B2B; font-weight: bold; margin-left: 5px;"></span>
-
-
-
 
             <script type="text/javascript">
                 function loadDoc() {
@@ -120,7 +117,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                     var notifications = document.querySelectorAll('.notification-item');
                     notifications.forEach(function(notification) {
                         notification.addEventListener('click', function() {
-                            // Redirect to the incident-list page or perform other actions
+
                             window.location.href = 'pending.php';
                         });
                     });
@@ -129,22 +126,12 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                 loadDoc();
             </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <script>
+                function toggleDropdown() {
+                    const dropdown = document.querySelector('.dropdown');
+                    dropdown.classList.toggle('show');
+                }
+            </script>
 
             <a class="button" onclick="logout()">
 
@@ -154,6 +141,14 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             </a>
         </div>
     </div>
+
+    <script>
+        // logout js
+        function logout() {
+            var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+            logoutModal.show();
+        }
+    </script>
 
     <div class="navbar">
         <div class="header">
@@ -191,13 +186,18 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             </div>
 
             <div class="user bg-transparent">
-                <a href="create_user.php" class="bg-transparent">
+                <a href="view_user.php" class="bg-transparent">
                     <i class="fa-solid fa-user-tie bg-transparent" style="padding-right: 7px;"></i>
                     USERS
                 </a>
             </div>
         </div>
 
+        <div class="togglebtn">
+            <button id="toggleNavButton" class="toggle-nav-button bg-transparent">
+                <i class="fa-solid fa-grip"></i>
+            </button>
+        </div>
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {
@@ -258,12 +258,6 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             });
         </script>
 
-        <div class="togglebtn">
-            <button id="toggleNavButton" class="toggle-nav-button bg-transparent">
-                <i class="fa-solid fa-grip"></i>
-            </button>
-        </div>
-
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const toggleNavButton = document.getElementById('toggleNavButton');
@@ -302,7 +296,6 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                 }
             });
         </script>
-
 
     </div>
 
@@ -526,25 +519,34 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
         }
 
-
         .dropdown {
             display: none;
-            position: fixed;
+            position: absolute;
+            /* Changed */
             background-color: #f9f9f9;
             min-width: 200px;
-            /* Adjust the width as needed */
             max-height: 300px;
-            /* Adjust the max height as needed */
             overflow-y: auto;
-            /* Enable vertical scroll if content exceeds max height */
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
             z-index: 100;
             color: black;
-            top: 1.5%;
-            right: 9%;
-            margin-top: 10px;
+            top: 35px;
+            /* Distance below bell */
+            right: 0;
+            /* Align to right of bell */
             border-radius: 7px;
+            transition: opacity 0.3s ease;
         }
+
+        .dropdown {
+            display: none;
+        }
+
+        .dropdown.show {
+            display: block;
+        }
+
+
 
         .dropdown::-webkit-scrollbar {
             display: block;
@@ -617,10 +619,21 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         }
 
         #noti_number {
-            margin-top: 25px;
-            font-weight: 400;
-            font-size: 23px;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #EE4B2B;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: inline-block;
+            min-width: 18px;
+            text-align: center;
+            line-height: 1;
         }
+
 
         .fa-bell {
             font-size: 25px;
