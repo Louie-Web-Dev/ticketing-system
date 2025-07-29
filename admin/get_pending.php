@@ -1,7 +1,7 @@
 <?php
 require_once "database.php";
 
-$sql = "SELECT * FROM concerns WHERE status IN ('Pending', 'on-hold') ORDER BY id DESC";
+$sql = "SELECT * FROM concerns WHERE status IN ('pending', 'on-hold') ORDER BY id DESC";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0):

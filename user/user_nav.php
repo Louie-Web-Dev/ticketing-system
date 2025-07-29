@@ -58,7 +58,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
         <div class="navigation">
 
-            <h1 style="display: inline-block;"> <?php echo  $_SESSION['name']; ?></h1>
+            <h1 style="display: inline-block; margin-right: 10px;">Welcome! <?php echo  $_SESSION['name']; ?></h1>
 
             <a class="button" onclick="logout()">
 
@@ -112,22 +112,104 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                 <i class="fa-solid fa-grip"></i>
             </button>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const toggleButtons = document.querySelectorAll('.report-toggle-button');
+
+                toggleButtons.forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+
+                        const reportList = this.nextElementSibling;
+
+                        reportList.style.display = (reportList.style.display === 'none' || reportList.style.display === '') ? 'block' : 'none';
+
+                        sessionStorage.setItem('reportListState', reportList.style.display);
+
+                        toggleButtons.forEach(otherButton => {
+                            if (otherButton !== this) {
+                                otherButton.nextElementSibling.style.display = 'none';
+                            }
+                        });
+                    });
+
+                    const storedState = sessionStorage.getItem('reportListState');
+                    if (storedState) {
+                        button.nextElementSibling.style.display = storedState;
+                    }
+                });
+            });
+        </script>
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const toggleButtons = document.querySelectorAll('.toggle-button');
+
+                toggleButtons.forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+
+                        const reports = this.nextElementSibling;
+
+                        reports.style.display = (reports.style.display === 'none' || reports.style.display === '') ? 'block' : 'none';
+
+                        sessionStorage.setItem('reportsState', reports.style.display);
+
+                        toggleButtons.forEach(otherButton => {
+                            if (otherButton !== this) {
+                                otherButton.nextElementSibling.style.display = 'none';
+                            }
+                        });
+                    });
+
+                    const storedState = sessionStorage.getItem('reportsState');
+                    if (storedState) {
+                        button.nextElementSibling.style.display = storedState;
+                    }
+                });
+            });
+        </script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const toggleNavButton = document.getElementById('toggleNavButton');
                 const navContent = document.querySelector('.navbar .nav');
-                navContent.style.display = 'block';
+
+                const storedNavState = sessionStorage.getItem('navState');
+                if (storedNavState) {
+                    navContent.style.display = storedNavState;
+                }
 
                 toggleNavButton.addEventListener('click', function() {
-                    if (navContent.style.display === 'none') {
+
+                    if (navContent.style.display === 'none' || navContent.style.display === '') {
                         navContent.style.display = 'block';
                     } else {
                         navContent.style.display = 'none';
                     }
+
+                    sessionStorage.setItem('navState', navContent.style.display);
                 });
             });
         </script>
+
+        <script>
+            window.addEventListener('resize', function() {
+                const navContent = document.querySelector('.navbar .nav');
+                const toggleBtn = document.querySelector('.togglebtn');
+
+                if (window.innerWidth > 1555) {
+                    navContent.style.display = 'block';
+                    sessionStorage.removeItem('navState');
+                } else {
+                    if (sessionStorage.getItem('navState') === 'none') {
+                        navContent.style.display = 'none';
+                    }
+                }
+            });
+        </script>
+
 
     </div>
 

@@ -41,21 +41,23 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
                             <table id="tblConcerns" class="table table-hover align-middle" style="width:100%">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th><i class="fas fa-ticket-alt me-1"></i> Ticket No</th>
-                                        <th><i class="far fa-calendar me-1"></i> Date Filed</th>
-                                        <th><i class="fas fa-tag me-1"></i> Category</th>
-                                        <th><i class="fas fa-tags me-1"></i> Sub-Category</th>
-                                        <th><i class="fas fa-align-left me-1"></i> Description</th>
-                                        <th><i class="fas fa-calendar-check me-1"></i> Date Accomplished</th>
-                                        <th><i class="fas fa-user-tie me-1"></i> Person In-Charge</th>
-                                        <th><i class="fas fa-info-circle me-1"></i> Status</th>
+                                        <th><i class=""></i> Ticket No</th>
+                                        <th><i class=""></i> Date Filed</th>
+                                        <th><i class=""></i> Category</th>
+                                        <th><i class=""></i> Sub-Category</th>
+                                        <th><i class=""></i> Description</th>
+                                        <th><i class=""></i> Date Accomplished</th>
+                                        <th><i class=""></i> Person In-Charge</th>
+                                        <th><i class=""></i> Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $sql = "SELECT id, ticket_no, con_date, category, sub_cat, description, date_accomplished, status, pic 
                                             FROM concerns 
-                                            WHERE status = 'done' AND name = '" . $name_q . "'";
+                                            WHERE status = 'done' AND name = '$name_q' 
+                                            ORDER BY id DESC";
+
 
                                     $retval = mysqli_query($conn, $sql);
 
@@ -98,13 +100,12 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
         $(document).ready(function() {
             $('#tblConcerns').DataTable({
                 responsive: true,
+                ordering: false,
                 language: {
                     emptyTable: "<div class='empty-state'><i class='far fa-folder-open fa-3x text-muted mb-3'></i><h5 class='text-muted'>No completed concerns found</h5></div>",
                     zeroRecords: "<div class='empty-state'><i class='fas fa-search fa-3x text-muted mb-3'></i><h5 class='text-muted'>No matching records found</h5></div>"
                 },
-                order: [
-                    [5, 'desc']
-                ], // Default sort by date accomplished descending
+
                 columnDefs: [{
                         responsivePriority: 1,
                         targets: 0
@@ -203,18 +204,23 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
             background-color: var(--dark-gray);
             color: white;
             font-weight: 500;
-            vertical-align: middle;
+
             padding: 0.75rem;
+            text-align: center;
         }
 
         .table tbody td {
             padding: 0.75rem;
-            vertical-align: middle;
+            text-align: center;
         }
 
         .ticket-no {
             color: var(--primary-blue);
             font-weight: bold;
+        }
+
+        .table thead th {
+            text-align: center;
         }
 
         .description-cell {
@@ -265,6 +271,18 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
 
             .description-cell {
                 max-width: 120px;
+            }
+        }
+
+        @media screen and (max-width: 1555px) and (min-width: 320px) {
+            .Container {
+                width: 98%;
+            }
+        }
+
+        @media screen and (max-width: 1950px) and (min-width: 1610px) {
+            .Container {
+                min-width: 85.4%;
             }
         }
     </style>

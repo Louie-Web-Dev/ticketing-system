@@ -60,7 +60,9 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
                                     <?php
                                     $sql = "SELECT id, ticket_no, con_date, category, sub_cat, description, status, pic 
                                             FROM concerns 
-                                            WHERE status = 'pending' AND name = '" . $name_q . "'";
+                                            WHERE status IN ('Pending', 'on-hold') AND name = '$name_q' 
+                                            ORDER BY id DESC";
+
 
                                     $retval = mysqli_query($conn, $sql);
 
@@ -107,13 +109,12 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
 
             $('#tblConcerns').DataTable({
                 responsive: true,
+                ordering: false,
                 language: {
                     emptyTable: "<div class='empty-state'><i class='far fa-check-circle fa-3x text-muted mb-3'></i><h5 class='text-muted'>No pending concerns found</h5></div>",
                     zeroRecords: "<div class='empty-state'><i class='fas fa-search fa-3x text-muted mb-3'></i><h5 class='text-muted'>No matching records found</h5></div>"
                 },
-                order: [
-                    [1, 'desc']
-                ],
+
                 columnDefs: [{
                         responsivePriority: 1,
                         targets: 0
