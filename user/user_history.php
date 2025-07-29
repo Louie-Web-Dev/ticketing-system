@@ -34,7 +34,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
             <div class="col-lg-11">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-check-circle me-2"></i> Completed Concerns
+                        <i class="fas fa-check-circle me-2" style="color: white;"></i> Completed Concerns
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -165,10 +165,10 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
         }
 
         :root {
-            --primary-blue: #2163ce;
-            --secondary-blue: #1a56b4;
+            --primary-blue: #2e2e2eff;
+            --secondary-blue: #2e2e2eff;
             --light-gray: #f8f9fa;
-            --dark-gray: #343a40;
+            --dark-gray: #2e2e2eff;
         }
 
 

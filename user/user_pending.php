@@ -40,20 +40,20 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
             <div class="col-lg-11">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-clock me-2"></i> Pending Concerns
+                        <i class="fas fa-clock me-2" style="color: white;"></i> Pending Concerns
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tblConcerns" class="table table-hover align-middle" style="width:100%">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th><i class="fas fa-ticket-alt me-1"></i> Ticket No</th>
-                                        <th><i class="far fa-calendar me-1"></i> Date Filed</th>
-                                        <th><i class="fas fa-tag me-1"></i> Category</th>
-                                        <th><i class="fas fa-tags me-1"></i> Sub-Category</th>
-                                        <th><i class="fas fa-align-left me-1"></i> Description</th>
-                                        <th><i class="fas fa-user-tie me-1"></i> Person In-Charge</th>
-                                        <th><i class="fas fa-info-circle me-1"></i> Status</th>
+                                        <th><i class="fas"></i> Ticket No</th>
+                                        <th><i class="far"></i> Date Filed</th>
+                                        <th><i class="fas"></i> Category</th>
+                                        <th><i class=""></i> Sub-Category</th>
+                                        <th><i class=""></i> Description</th>
+                                        <th><i class=""></i> Person In-Charge</th>
+                                        <th><i class=""></i> Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -172,15 +172,17 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
         }
 
         :root {
-            --primary-blue: #2163ce;
-            --secondary-blue: #1a56b4;
+            --primary-blue: #2e2e2eff;
+            --secondary-blue: #2e2e2eff;
             --light-gray: #f8f9fa;
-            --dark-gray: #343a40;
+            --dark-gray: #2e2e2eff;
         }
 
         .row {
-            width: 1500px;
+            width: 100%;
+            margin: 0;
         }
+
 
         body {
             background-color: rgb(221, 221, 221);
@@ -250,30 +252,15 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
             opacity: 0.6;
         }
 
-        @media (max-width: 992px) {
+        @media screen and (max-width: 1555px) and (min-width: 320px) {
             .Container {
-                width: 83%;
-            }
-
-            .description-cell {
-                max-width: 150px;
+                width: 98%;
             }
         }
 
-        @media (max-width: 768px) {
+        @media screen and (max-width: 1950px) and (min-width: 1610px) {
             .Container {
-                width: 95%;
-                height: auto;
-                position: static;
-                margin: 83px auto 20px;
-            }
-
-            .table-responsive {
-                overflow-x: auto;
-            }
-
-            .description-cell {
-                max-width: 120px;
+                min-width: 85.4%;
             }
         }
     </style>

@@ -591,6 +591,36 @@ require_once "database.php";
         .filter-form2 .btn-clear:hover {
             background-color: #c5c5c5;
         }
+
+        @media screen and (max-width: 1555px) and (min-width: 320px) {
+            .dashboardContainer {
+                width: 98%;
+            }
+        }
+
+        @media screen and (max-width: 1950px) and (min-width: 1610px) {
+            .dashboardContainer {
+                min-width: 85.4%;
+            }
+
+            /* .fb-page {
+                min-width: 100%;
+            }
+
+            .fbPlugins h1 {
+                width: 93.7%;
+            } */
+        }
+
+        /* @media print {
+            body {
+                text-align: center;
+            }
+
+            table {
+                text-align: center;
+            }
+        } */
     </style>
 
 

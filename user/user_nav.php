@@ -81,7 +81,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
             <div class="add-report bg-transparent position-relative">
                 <a href="user_pending.php" class="bg-transparent text-decoration-none text-dark">
-                    <i class="fa-solid fa-hourglass-half bg-transparent"></i>
+                    <i class="fa-solid fa-spinner fa-spin"></i>
                     Pending
                     <?php if ($pendingCount >= 0): ?>
                         <span class="badge bg-danger position-absolute top-0 start-90 translate-middle rounded-pill" id="pendingBadge">

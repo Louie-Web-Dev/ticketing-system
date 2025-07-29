@@ -56,7 +56,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-headset me-2"></i> Submit IT Concern
+                        <i class="fas fa-headset me-2" style="color: white;"></i> Submit IT Concern
                     </div>
                     <div class="form-section">
                         <form id="concernForm">
@@ -231,7 +231,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
                                     <i class="fas fa-wrench me-2"></i> Troubleshooting Guide
                                 </button>
                                 <button type="submit" class="btn btn-submit" id="submit">
-                                    <i class="fas fa-paper-plane me-2"></i> Submit Concern
+                                    <i class="fas fa-paper-plane me-2" style="color: white;"></i> Submit Concern
                                 </button>
                             </div>
                         </form>
@@ -242,7 +242,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
     </div>
 
     <!-- Confirm Submit Modal -->
-    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+    <div class=" modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -429,12 +429,13 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
             border-radius: 15px;
             padding-bottom: 20px;
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-            overflow-y: auto;
+
+
         }
 
         :root {
             --primary-blue: #2e2e2eff;
-            --secondary-blue: #1a56b4;
+            --secondary-blue: #2e2e2eff;
             --light-gray: #f8f9fa;
             --dark-gray: #343a40;
         }
@@ -519,8 +520,9 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
         }
 
         .btn-submit:hover {
-            background-color: var(--secondary-blue);
+            background-color: grey;
             transform: translateY(-2px);
+            color: white;
         }
 
         .btn-troubleshoot {
@@ -551,13 +553,21 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
             content: " *";
             color: #dc3545;
         }
+
+
+
+        @media screen and (max-width: 1555px) and (min-width: 320px) {
+            .Container {
+                width: 98%;
+            }
+        }
+
+        @media screen and (max-width: 1950px) and (min-width: 1610px) {
+            .Container {
+                min-width: 85.4%;
+            }
+        }
     </style>
-
-
-
-
-
-
 
 </body>
 
