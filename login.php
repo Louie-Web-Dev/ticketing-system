@@ -121,15 +121,18 @@ if (isset($_POST["login"])) {
                     <input type="submit" value="Login" name="login" class="btn btn-primary">
                 </div>
             </form>
-
             <div>
-                <p>Don't have an account? <a href="mailto:admin@company.com?subject=Request%20for%20Account%20Creation" onclick="openOutlook()">Contact Admin</a></p>
+                <p>Don't have an account? Contact IT Admin</p>
+            </div>
+
+            <!-- <div>
+                <p>Don't have an account? <a href="mailto:admin@company.com?subject=Request%20for%20Account%20Creation" onclick="openOutlook()">Contact IT Admin</a></p>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
             <script>
                 function openEmailClient() {
-                    const subject = encodeURIComponent("Request for Account Creation");
+                    const subject = encodeURIComponent("Request for Account Creation / Put FullName");
                     const body = encodeURIComponent(`Dear [Admin's Name or Team],
                     I hope this email finds you in good health and high spirits. I am writing to formally request the creation of a new account within our organization's system.
 
@@ -160,10 +163,10 @@ if (isset($_POST["login"])) {
                     [Your Position/Role]
                     [Your Contact Information]`);
 
-                    const mailtoLink = `mailto:admin@company.com?subject=${subject}&body=${body}`;
-                    window.location.href = mailtoLink; // Open the email client directly
+                    const mailtoLink = `admin@company.com?subject=${subject}&body=${body}`;
+                    window.location.href = mailtoLink;
                 }
-            </script>
+            </script> -->
 
 
 

@@ -350,6 +350,18 @@ require_once "database.php";
             opacity: 1;
             z-index: 3000;
         }
+
+        @media screen and (max-width: 1555px) and (min-width: 320px) {
+            .pendingContainer {
+                width: 98%;
+            }
+        }
+
+        @media screen and (max-width: 1950px) and (min-width: 1610px) {
+            .pendingContainer {
+                min-width: 85.4%;
+            }
+        }
     </style>
 
 

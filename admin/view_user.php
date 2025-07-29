@@ -345,6 +345,18 @@ session_start();
         .table-section tbody tr:nth-child(odd) {
             background-color: #ffffffff;
         }
+
+        @media screen and (max-width: 1555px) and (min-width: 320px) {
+            .pendingContainer {
+                width: 98%;
+            }
+        }
+
+        @media screen and (max-width: 1950px) and (min-width: 1610px) {
+            .pendingContainer {
+                min-width: 85.4%;
+            }
+        }
     </style>
 </body>
 

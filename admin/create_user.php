@@ -302,6 +302,18 @@ session_start();
         .password-strength.strong {
             color: #28a745;
         }
+
+        @media screen and (max-width: 1555px) and (min-width: 320px) {
+            .createContainer {
+                width: 98%;
+            }
+        }
+
+        @media screen and (max-width: 1950px) and (min-width: 1610px) {
+            .createContainer {
+                min-width: 85.4%;
+            }
+        }
     </style>
 </body>
 
