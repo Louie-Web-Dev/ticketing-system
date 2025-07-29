@@ -546,8 +546,6 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             display: block;
         }
 
-
-
         .dropdown::-webkit-scrollbar {
             display: block;
             width: 5px;
@@ -559,7 +557,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         }
 
         .dropdown::-webkit-scrollbar-track {
-            background: #173381;
+            background: black;
             border-radius: 7px;
         }
 

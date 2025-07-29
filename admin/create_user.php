@@ -63,14 +63,13 @@ session_start();
                             <option value="IT">IT</option>
                             <option value="Admin">Admin</option>
                             <option value="Finance and Accounting">Finance and Accounting</option>
-                            <option value="Parts Counter">Parts Counter</option>
-                            <option value="Parts Warehouse">Parts Warehouse</option>
+                            <option value="Parts">Parts</option>
+                            <option value="HR">HR</option>
+                            <option value="CRD">CRD</option>
                             <option value="Sales (Financing)">Sales (Financing)</option>
-                            <option value="Sales (MP)">Sales (MP)</option>
                             <option value="Sales Admin">Sales Admin</option>
                             <option value="Sales Training">Sales Training</option>
                             <option value="Service">Service</option>
-                            <option value="Tool Room">Tool Room</option>
                             <option value="Tsure">Tsure</option>
 
                         </select>

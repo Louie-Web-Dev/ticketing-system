@@ -84,7 +84,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                     <i class="fa-solid fa-hourglass-half bg-transparent"></i>
                     Pending
                     <?php if ($pendingCount >= 0): ?>
-                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill" id="pendingBadge">
+                        <span class="badge bg-danger position-absolute top-0 start-90 translate-middle rounded-pill" id="pendingBadge">
                             <?= $pendingCount ?>
                         </span>
                     <?php endif; ?>
@@ -117,8 +117,6 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             document.addEventListener("DOMContentLoaded", function() {
                 const toggleNavButton = document.getElementById('toggleNavButton');
                 const navContent = document.querySelector('.navbar .nav');
-
-                // Always show nav by default
                 navContent.style.display = 'block';
 
                 toggleNavButton.addEventListener('click', function() {
@@ -157,16 +155,13 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         @import url(https://fonts.googleapis.com/css?family=Oswald:400);
         @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&family=Merriweather:wght@300&family=Oswald:wght@300;400&family=Rubik&family=Tiro+Tamil&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap');
-
-        .navigation h1 {
-            font-family: 'Inter', sans-serif;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&family=Oswald:wght@300&family=Tiro+Tamil&display=swap');
 
         .color-bg {
             position: fixed;
             height: 80px;
             width: 82%;
-            background-color: rgb(161, 8, 8);
+            background-color: #418bebff;
             right: 0;
             z-index: 0;
         }
@@ -179,24 +174,13 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             height: 65px;
             min-width: 82%;
             margin-left: 100px;
-            background-color: #343a40;
+            background-color: black;
+
             border-radius: 15px;
             border: 1px black solid;
             display: flex;
             z-index: 1;
         }
-
-        .add-report {
-            position: relative;
-            display: inline-block;
-            margin-top: 60px;
-        }
-
-        .add-report .badge {
-            font-size: 0.7rem;
-            padding: 0.4em 0.6em;
-        }
-
 
         h1 {
             margin: 3.5px;
@@ -277,6 +261,8 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             text-decoration: none;
         }
 
+
+
         .navbar {
             position: fixed;
             width: 250px;
@@ -300,8 +286,8 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
         .header img {
             position: absolute;
-            top: 10px;
-            left: 15%;
+            top: 20px;
+            left: 20%;
         }
 
         .container label {
@@ -362,14 +348,6 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             transition: 0.4s;
         }
 
-        .aksyon-bilis img {
-            position: absolute;
-            left: 15px;
-            bottom: 4%;
-            height: 140px;
-            width: 240px;
-        }
-
         .reports {
             background-color: transparent;
             margin-left: 50px;
@@ -395,7 +373,8 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
         .dropdown {
             display: none;
-            position: fixed;
+            position: absolute;
+            /* Changed */
             background-color: #f9f9f9;
             min-width: 200px;
             max-height: 300px;
@@ -403,11 +382,23 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
             z-index: 100;
             color: black;
-            top: 1.5%;
-            right: 9%;
-            margin-top: 10px;
+            top: 35px;
+            /* Distance below bell */
+            right: 0;
+            /* Align to right of bell */
             border-radius: 7px;
+            transition: opacity 0.3s ease;
         }
+
+        .dropdown {
+            display: none;
+        }
+
+        .dropdown.show {
+            display: block;
+        }
+
+
 
         .dropdown::-webkit-scrollbar {
             display: block;
@@ -420,8 +411,90 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         }
 
         .dropdown::-webkit-scrollbar-track {
-            background: #f9f9f9;
+            background: #173381;
             border-radius: 7px;
+        }
+
+        .notification-item {
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            /* Add a border between notifications */
+            cursor: pointer;
+            /* Add cursor pointer */
+            transition: background-color 0.3s;
+            /* Add smooth transition for background color */
+            background-color: white;
+        }
+
+        .notification-item:hover {
+            background-color: #f0f0f0;
+            /* Add the background color you want on hover */
+        }
+
+        .detail-label,
+        .detail-value {
+            font-weight: 400;
+            margin-bottom: 4px;
+            background-color: white;
+            transition: background-color 0.3s;
+            /* Add smooth transition for background color */
+        }
+
+        .notification-item:hover .detail-label,
+        .notification-item:hover .detail-value {
+            background-color: #f0f0f0;
+            /* Add the background color you want on hover */
+        }
+
+        .detail-label {
+            font-weight: 400;
+            margin-bottom: 4px;
+            background-color: white;
+        }
+
+        .detail-value {
+            margin-bottom: 8px;
+            background-color: white;
+        }
+
+        .notification-item .detail-label {
+            font-weight: 400;
+            margin-bottom: 4px;
+            background-color: white;
+        }
+
+        .notification-item .detail-value {
+            margin-bottom: 8px;
+            background-color: white;
+        }
+
+        #noti_number {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #EE4B2B;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: inline-block;
+            min-width: 18px;
+            text-align: center;
+            line-height: 1;
+        }
+
+
+        .fa-bell {
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        #noti_number:hover {
+            cursor: pointer;
+            /* Change cursor to pointer on hover */
         }
 
         .togglebtn {
@@ -436,7 +509,6 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
             .nav,
             .header img,
-            .aksyon-bilis,
             .container label {
                 display: none;
             }

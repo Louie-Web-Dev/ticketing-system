@@ -24,15 +24,26 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT Help Desk - Submit Concern</title>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="create_ticket.css">
+
+    <?php include 'user_nav.php' ?>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body>
-    <?php include 'user_nav.php' ?>
+
 
     <div class="Container">
         <div class="content">
@@ -402,6 +413,152 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['name'])) {
 
         });
     </script>
+
+
+    <style>
+        .Container {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            width: 85.5%;
+            height: 91%;
+            position: fixed;
+            right: 10px;
+            margin-top: 83px;
+            border: 1px black solid;
+            border-radius: 15px;
+            padding-bottom: 20px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+
+        :root {
+            --primary-blue: #2e2e2eff;
+            --secondary-blue: #1a56b4;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+
+
+        body {
+            background-color: rgb(221, 221, 221);
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .card-header {
+            background-color: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+            padding: 1.2rem;
+            border-radius: 0.5rem 0.5rem 0 0 !important;
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            margin-top: 100px;
+        }
+
+        .form-section {
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .required-field {
+            color: black;
+        }
+
+        .form-control,
+        .form-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.25rem rgba(33, 99, 206, 0.25);
+        }
+
+        .checkbox-group {
+            background-color: #343a40;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .checkbox-label {
+            margin-right: 1.5rem;
+            display: inline-block;
+            color: #f8f9fa;
+        }
+
+        .checkbox-label .input {
+            font-size: 1px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--secondary-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-troubleshoot {
+            background-color: #ffc107;
+            color: var(--dark-gray);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-troubleshoot:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .required-field::after {
+            content: " *";
+            color: #dc3545;
+        }
+    </style>
+
+
+
+
+
+
+
 </body>
 
 </html>
