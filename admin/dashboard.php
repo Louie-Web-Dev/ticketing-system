@@ -31,7 +31,7 @@ require_once "database.php";
 <body>
     <div class="dashboardContainer">
         <div class="displayCount bg-transparent">
-            <h1>DISPLAY COUNT</h1>
+            <h1>CONCERN COUNT</h1>
 
             <div id="dashboardContent"></div>
             <script>
