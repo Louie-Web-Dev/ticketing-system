@@ -1,4 +1,13 @@
 <?php
+session_start();
+if (!isset($_SESSION["user"]) || $_SESSION["pos"] !== "admin") {
+    header("Location: /TSP-System/ticketing-system/");
+    exit();
+}
+
+require_once "database.php";
+?>
+<?php
 ob_start();
 include 'database.php';
 
