@@ -87,7 +87,6 @@ if (isset($_POST["login"])) {
             <h1>Toyota IT<br>Ticketing System</h1>
 
             <form action="login.php" method="post">
-                <!-- Error Message Display -->
                 <?php if (isset($_SESSION['error_message'])): ?>
                     <?php unset($_SESSION['error_message']); ?>
                 <?php endif; ?>

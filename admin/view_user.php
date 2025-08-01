@@ -8,7 +8,7 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toyota</title>
+    <title>Toyota IT Ticketing System</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin="" />
@@ -18,6 +18,7 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <?php include 'nav.php'; ?>
+    <link rel="icon" type="image/x-icon" href="images/logo2.png">
 </head>
 
 <body>
@@ -334,7 +335,7 @@ session_start();
             position: sticky;
             top: 0;
             z-index: 10;
-            background-color: #000000ff;
+            background-color: #2e2e2eff;
             color: white;
         }
 
