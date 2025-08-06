@@ -104,6 +104,13 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                     History
                 </a>
             </div>
+
+            <div class="report-list bg-transparent">
+                <a href="chat/users.php" class="bg-transparent">
+                    <i class="fa-solid fa-comment-dots bg-transparent" style="padding-right: 3px;"></i>
+                    Chat
+                </a>
+            </div>
         </div>
 
 

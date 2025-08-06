@@ -37,12 +37,15 @@ if (isset($_POST["login"])) {
             unset($_SESSION['login_username']);
             unset($_SESSION['login_error']);
 
+            // ✅ Set these session values
             $_SESSION["user"] = "yes";
             $_SESSION["username"] = $user["username"];
             $_SESSION["pos"] = $user["pos"];
             $_SESSION["name"] = $user["name"];
             $_SESSION["department"] = $user["department"];
+            $_SESSION["id"] = $user["id"];  // ✅ Add this line
 
+            // Redirect based on position
             switch ($_SESSION["pos"]) {
                 case "admin":
                     header("Location: /TSP-system/ticketing-system/admin/dashboard.php");

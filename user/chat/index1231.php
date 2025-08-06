@@ -9,29 +9,37 @@ if (isset($_SESSION['id'])) {
 
 <body>
   <div class="wrapper">
-    <section class="form login">
+    <section class="form signup">
       <header>Realtime Chat App</header>
       <form action="#" method="POST" enctype="multipart/form-data" autocomplete="off">
         <div class="error-text"></div>
+        <div class="field input">
+          <label>Full Name</label>
+          <input type="text" name="name" placeholder="Enter your full name" required>
+        </div>
         <div class="field input">
           <label>Username</label>
           <input type="text" name="username" placeholder="Enter your username" required>
         </div>
         <div class="field input">
           <label>Password</label>
-          <input type="password" name="password" placeholder="Enter your password" required>
+          <input type="password" name="password" placeholder="Enter new password" required>
           <i class="fas fa-eye"></i>
+        </div>
+        <div class="field image">
+          <label>Select Image</label>
+          <input type="file" name="image" accept="image/x-png,image/gif,image/jpeg,image/jpg" required>
         </div>
         <div class="field button">
           <input type="submit" name="submit" value="Continue to Chat">
         </div>
       </form>
-      <div class="link">Not yet signed up? <a href="index.php">Signup now</a></div>
+      <div class="link">Already signed up? <a href="login.php">Login now</a></div>
     </section>
   </div>
 
   <script src="javascript/pass-show-hide.js"></script>
-  <script src="javascript/login.js"></script>
+  <script src="javascript/signup.js"></script>
 </body>
 
 </html>

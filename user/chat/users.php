@@ -1,8 +1,16 @@
 <?php
 session_start();
 include_once "php/database.php";
+
 if (!isset($_SESSION['id'])) {
-  header("location: login.php");
+  header("Location: ../../login.php");
+  exit();
+}
+
+$sql = mysqli_query($conn, "SELECT * FROM user WHERE id = {$_SESSION['id']}");
+if (mysqli_num_rows($sql) > 0) {
+  $row = mysqli_fetch_assoc($sql);
+  $img = (!empty($row['img'])) ? $row['img'] : 'default.jpg';
 }
 ?>
 <?php include_once "header.php"; ?>
@@ -12,13 +20,7 @@ if (!isset($_SESSION['id'])) {
     <section class="users">
       <header>
         <div class="content">
-          <?php
-          $sql = mysqli_query($conn, "SELECT * FROM user WHERE id = {$_SESSION['id']}");
-          if (mysqli_num_rows($sql) > 0) {
-            $row = mysqli_fetch_assoc($sql);
-          }
-          ?>
-          <img src="php/images/<?php echo $row['img']; ?>" alt="">
+          <img src="php/images/<?php echo $img; ?>" alt="">
           <div class="details">
             <span><?php echo $row['name']; ?></span>
             <p><?php echo $row['status']; ?></p>
@@ -32,7 +34,7 @@ if (!isset($_SESSION['id'])) {
         <button><i class="fas fa-search"></i></button>
       </div>
       <div class="users-list">
-
+        <!-- Dynamic user list loads here -->
       </div>
     </section>
   </div>
