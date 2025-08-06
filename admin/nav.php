@@ -187,7 +187,7 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 
             <div class=" history bg-transparent">
                 <a href="chat/users.php" class="bg-transparent">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <i class="fa-solid fa-comment-dots"></i>
                     <span class="bg-transparent no-underline">CHAT</span>
                 </a>
             </div>

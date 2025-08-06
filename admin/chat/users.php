@@ -1,10 +1,21 @@
 <?php
 session_start();
-include_once "php/database.php";
-if (!isset($_SESSION['id'])) {
-  header("location: login.php");
+
+if (!isset($_SESSION["id"])) {
+  header("Location: login.php");
+  exit();
 }
+
+// Optional: If admin should NOT access this page
+if (isset($_SESSION["pos"]) && $_SESSION["pos"] === "admin") {
+  header("Location: /TSP-System/ticketing-system/admin/chat/users.php");
+  exit();
+}
+
+require_once "php/database.php";
 ?>
+
+
 <?php include_once "header.php"; ?>
 
 <body>
@@ -18,7 +29,7 @@ if (!isset($_SESSION['id'])) {
             $row = mysqli_fetch_assoc($sql);
           }
           ?>
-          <img src="php/images/<?php echo $row['img']; ?>" alt="">
+          <img src="php/images/<?php echo !empty($row['img']) ? $row['img'] : 'default.jpg'; ?>" alt="">
           <div class="details">
             <span><?php echo $row['name']; ?></span>
             <p><?php echo $row['status']; ?></p>

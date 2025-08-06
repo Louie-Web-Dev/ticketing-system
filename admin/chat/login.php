@@ -1,8 +1,14 @@
 <?php
-session_start();
-if (isset($_SESSION['id'])) {
-  header("location: users.php");
+if (isset($_SESSION["user"])) {
+  if ($_SESSION["pos"] === "admin") {
+    header("Location: /TSP-System/ticketing-system/admin/chat/users.php");
+  } else {
+    header("Location: users.php");
+  }
+  exit();
 }
+
+require_once "database.php";
 ?>
 
 <?php include_once "header.php"; ?>

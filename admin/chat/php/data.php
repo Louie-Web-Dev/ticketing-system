@@ -20,9 +20,11 @@ while ($row = mysqli_fetch_assoc($query)) {
     $offline = ($row['status'] == "Offline now") ? "offline" : "";
     $hid_me = ($outgoing_id == $row['id']) ? "hide" : "";
 
+    $img = (!empty($row['img'])) ? $row['img'] : 'default.jpg';
+
     $output .= '<a href="chat.php?user_id=' . $row['id'] . '">
                     <div class="content">
-                        <img src="php/images/' . $row['img'] . '" alt="">
+                        <img src="php/images/' . $img . '" alt="">
                         <div class="details">
                             <span>' . $row['name'] . '</span>
                             <p>' . $you . $msg . '</p>
