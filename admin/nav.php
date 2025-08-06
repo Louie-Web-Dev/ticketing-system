@@ -1,15 +1,6 @@
 <?php
-session_start();
-if (!isset($_SESSION["user"]) || $_SESSION["pos"] !== "admin") {
-    header("Location: /TSP-System/ticketing-system/");
-    exit();
-}
-
-require_once "database.php";
-?>
-<?php
 ob_start();
-include 'database.php';
+require_once "database.php";
 
 $pendingCount = 0;
 
@@ -191,6 +182,13 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
                 <a href="history.php" class="bg-transparent">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <span class="bg-transparent no-underline">HISTORY</span>
+                </a>
+            </div>
+
+            <div class=" history bg-transparent">
+                <a href="chat/users.php" class="bg-transparent">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span class="bg-transparent no-underline">CHAT</span>
                 </a>
             </div>
 
