@@ -9,11 +9,11 @@ if (isset($_SESSION['id'])) {
         if ($sql) {
             session_unset();
             session_destroy();
-            header("location: ../login.php");
+            header("location: ../../login.php");
         }
     } else {
         header("location: ../users.php");
     }
 } else {
-    header("location: ../login.php");
+    header("location: ../../login.php");
 }

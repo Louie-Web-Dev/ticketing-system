@@ -7,14 +7,17 @@ if (isset($_SESSION['id'])) {
     $output = "";
 
     $sql = "SELECT * FROM messages 
-            LEFT JOIN users ON users.id = messages.outgoing_msg_id
-            WHERE (outgoing_msg_id = {$outgoing_id} AND incoming_msg_id = {$incoming_id})
-               OR (outgoing_msg_id = {$incoming_id} AND incoming_msg_id = {$outgoing_id})
-            ORDER BY msg_id";
+        LEFT JOIN user ON user.id = messages.outgoing_msg_id
+        WHERE (outgoing_msg_id = {$outgoing_id} AND incoming_msg_id = {$incoming_id})
+           OR (outgoing_msg_id = {$incoming_id} AND incoming_msg_id = {$outgoing_id})
+        ORDER BY msg_id";
 
     $query = mysqli_query($conn, $sql);
     if (mysqli_num_rows($query) > 0) {
         while ($row = mysqli_fetch_assoc($query)) {
+
+            $img = (!empty($row['img'])) ? $row['img'] : 'default.jpg';
+
             if ($row['outgoing_msg_id'] == $outgoing_id) {
                 $output .= '<div class="chat outgoing">
                                 <div class="details">
@@ -23,7 +26,7 @@ if (isset($_SESSION['id'])) {
                             </div>';
             } else {
                 $output .= '<div class="chat incoming">
-                                <img src="php/images/' . $row['img'] . '" alt="">
+                                <img src="php/images/' . $img . '" alt="">
                                 <div class="details">
                                     <p>' . $row['msg'] . '</p>
                                 </div>
