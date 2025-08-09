@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "../user_nav.php";
 include_once "php/database.php";
 
 if (!isset($_SESSION['id'])) {

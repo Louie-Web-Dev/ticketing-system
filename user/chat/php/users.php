@@ -3,9 +3,13 @@ session_start();
 include_once "database.php";
 $outgoing_id = $_SESSION['id'];
 
-$sql = "SELECT * FROM user WHERE NOT id = {$outgoing_id} ORDER BY id DESC";
+$sql = "SELECT * FROM user 
+        WHERE NOT id = {$outgoing_id} 
+        AND pos = 'admin' 
+        ORDER BY id DESC";
 $query = mysqli_query($conn, $sql);
 $output = "";
+
 
 if (mysqli_num_rows($query) == 0) {
     $output .= "No users are available to chat";
